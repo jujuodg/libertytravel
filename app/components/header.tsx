@@ -35,7 +35,7 @@ export default function Header() {
       href: '/travel-insurance',
       icon: HeartPulse,
     },
-    { name: 'Hotel Bookings', href: '/hotel-bookings', icon: Building },
+    { name: 'Shortlet Apartments', href: '/shortlet-bookings', icon: Building },
     { name: 'Tours & Holidays', href: '/tours-holidays', icon: Globe },
     { name: 'Visa Advisory', href: '/visa-advisory', icon: FileText },
   ];
@@ -118,7 +118,7 @@ export default function Header() {
           <Button className='hidden lg:flex bg-gray-500 hover:bg-gray-600 text-white'>
             <Phone className='mr-2 h-4 w-4' />
             Chat on WhatsApp
-            <span className='ml-1 text-xs'>Can't Wait!</span>
+            {/* <span className='ml-1 text-xs'>Can't Wait!</span> */}
           </Button>
         </Link>
 

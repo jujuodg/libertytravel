@@ -45,9 +45,9 @@ export default function HomePage() {
     },
     {
       icon: Building2,
-      title: 'Hotel Bookings',
+      title: 'Shortlet Apartments',
       description: 'Premium accommodations at competitive rates',
-      href: '/hotel-bookings',
+      href: '/shortlet-bookings',
       color: 'bg-purple-50 text-purple-600',
     },
     {
