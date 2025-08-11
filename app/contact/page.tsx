@@ -23,7 +23,10 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Link from 'next/link';
-import InteractiveMap from '../components/InteractiveMap';
+import dynamic from 'next/dynamic';
+const InteractiveMap = dynamic(() => import('../components/InteractiveMap'), {
+  ssr: false,
+});
 
 interface FormData {
   firstName: string;
