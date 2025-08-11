@@ -338,7 +338,7 @@ export default function VisaAssistancePage() {
                     />
                     <Label htmlFor='terms' className='text-sm text-gray-600'>
                       By proceeding, I acknowledge that I have read and agreed
-                      to Travelbeta's Flight booking terms & conditions
+                      to Liberty Travels's Flight booking terms & conditions
                     </Label>
                   </div>
 

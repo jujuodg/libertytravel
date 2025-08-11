@@ -106,7 +106,7 @@ export default function HomePage() {
         <div className='container mx-auto px-4 relative z-10'>
           <div className='max-w-4xl mx-auto text-center'>
             <Badge className='mb-4 bg-white/20 text-white hover:bg-white/30'>
-              ✈️ Your Travel Partner Since 2010
+              ✈️ Your Travel Partner Since 2013
             </Badge>
             <h1 className='text-5xl md:text-6xl font-bold mb-6 leading-tight'>
               Explore the World with{' '}

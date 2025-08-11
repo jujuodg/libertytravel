@@ -27,7 +27,7 @@ export default function Footer() {
               </div>
             </div>
             <p className='text-purple-200 text-sm leading-relaxed'>
-              Your trusted travel partner since 2010. We specialize in creating
+              Your trusted travel partner since 2013. We specialize in creating
               unforgettable travel experiences with personalized service and
               competitive prices.
             </p>

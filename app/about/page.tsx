@@ -73,7 +73,7 @@ export default function AboutPage() {
       <section className='relative bg-gradient-to-r from-purple-600 to-blue-600 text-white py-20'>
         <div className='container mx-auto px-4'>
           <div className='max-w-4xl mx-auto text-center'>
-            <Badge className='mb-4 bg-white/20 text-white'>✈️ Since 2010</Badge>
+            <Badge className='mb-4 bg-white/20 text-white'>✈️ Since 2013</Badge>
             <h1 className='text-5xl font-bold mb-6'>
               About Liberty Hospitality
             </h1>
@@ -93,7 +93,7 @@ export default function AboutPage() {
               <h2 className='text-4xl font-bold mb-6'>Our Story</h2>
               <div className='space-y-4 text-gray-600 text-lg'>
                 <p>
-                  Founded in 2010, Liberty Hospitality Limited began as a small
+                  Founded in 2013, Liberty Hospitality Limited began as a small
                   travel agency with a big vision: to make international travel
                   accessible and hassle-free for everyone. What started as a
                   passion project has grown into one of Nigeria's most trusted
