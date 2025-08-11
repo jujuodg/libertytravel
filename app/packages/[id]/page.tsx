@@ -438,16 +438,12 @@ export default function PackageDetailsPage({
                 </Button>
 
                 <div className='mt-4 pt-4 border-t'>
-                  <Button
-                    onClick={() => {
-                      window.location.href = 'tel:08023874076';
-                    }}
-                    variant='outline'
-                    className='w-full bg-transparent'
-                  >
-                    <Phone className='mr-2 h-4 w-4' />
-                    Call for Booking
-                  </Button>
+                  <a href='tel:08023874076'>
+                    <Button variant='outline' className='w-full bg-transparent'>
+                      <Phone className='mr-2 h-4 w-4' />
+                      Call for Booking
+                    </Button>
+                  </a>
                 </div>
 
                 <p className='text-xs text-gray-500 mt-4 text-center'>

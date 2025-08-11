@@ -321,16 +321,15 @@ export default function HomePage() {
                   <ArrowRight className='ml-2 h-5 w-5' />
                 </Button>
               </Link>
-              <Button
-                size='lg'
-                variant='outline'
-                onClick={() => {
-                  window.location.href = 'tel:08023874076';
-                }}
-                className='border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white px-8 bg-transparent'
-              >
-                Call Us: +234 802 3874 076
-              </Button>
+              <a href='tel:08023874076'>
+                <Button
+                  size='lg'
+                  variant='outline'
+                  className='border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white px-8 bg-transparent'
+                >
+                  Call Us: +234 802 3874 076
+                </Button>
+              </a>
             </div>
           </div>
         </div>

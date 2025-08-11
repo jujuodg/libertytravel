@@ -424,16 +424,15 @@ export default function VisaAssistancePage() {
                 Start Application
               </Button>
             </Link>
-            <Button
-              size='lg'
-              variant='outline'
-              onClick={() => {
-                window.location.href = 'tel:08023874076';
-              }}
-              className='border-white text-white hover:bg-white hover:text-blue-600 bg-transparent'
-            >
-              Call: +234 802 3874 076
-            </Button>
+            <a href='tel:08023874076'>
+              <Button
+                size='lg'
+                variant='outline'
+                className='border-white text-white hover:bg-white hover:text-blue-600 bg-transparent'
+              >
+                Call: +234 802 3874 076
+              </Button>
+            </a>
           </div>
         </div>
       </section>

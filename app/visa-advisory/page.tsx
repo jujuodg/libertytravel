@@ -301,16 +301,15 @@ export default function VisaAdvisoryPage() {
             >
               Schedule Consultation
             </Button>
-            <Button
-              size='lg'
-              variant='outline'
-              className='border-white text-white hover:bg-white hover:text-purple-600 bg-transparent'
-              onClick={() => {
-                window.location.href = 'tel:08023874076';
-              }}
-            >
-              Contact: 08023874076
-            </Button>
+            <a href='tel:08023874076'>
+              <Button
+                size='lg'
+                variant='outline'
+                className='border-white text-white hover:bg-white hover:text-purple-600 bg-transparent'
+              >
+                Contact: 08023874076
+              </Button>
+            </a>
           </div>
         </div>
       </div>
