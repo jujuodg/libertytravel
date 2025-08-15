@@ -24,6 +24,13 @@ import Footer from '../components/footer';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { faqs } from '@/lib/lists';
 const InteractiveMap = dynamic(() => import('../components/InteractiveMap'), {
   ssr: false,
 });
@@ -131,7 +138,7 @@ export default function ContactPage() {
     'Travel Health Insurance',
     'Shortlet Bookings',
     'Tours & Holidays',
-    'Visa Advisory',
+    'Airport Transfers',
     'General Inquiry',
   ];
 
@@ -140,11 +147,18 @@ export default function ContactPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className='relative bg-gradient-to-r from-purple-600 to-blue-600 text-white py-20'>
-        <div className='container mx-auto px-4'>
+      <section
+        className='relative bg-cover bg-center bg-no-repeat text-white py-32'
+        style={{
+          backgroundImage: "url('/contact.jpg')",
+          // replace with your image path
+        }}
+      >
+        <div className='absolute inset-0 bg-black/25'></div>
+        <div className='relative container mx-auto px-4'>
           <div className='max-w-4xl mx-auto text-center'>
-            <h1 className='text-5xl font-bold mb-6'>Contact Us</h1>
-            <p className='text-xl mb-8 text-purple-100'>
+            <h1 className='text-5xl text-white font-bold mb-6'>Contact Us</h1>
+            <p className='text-xl mb-8 text-white'>
               Get in touch with our travel experts for personalized assistance
               with all your travel needs
             </p>
@@ -331,6 +345,42 @@ export default function ContactPage() {
             </Card>
           </div>
         </div>
+
+        {/* FAQ Section */}
+        <section className='py-20'>
+          <div className='container mx-auto px-4'>
+            <div className='text-center mb-16'>
+              <h2 className='text-4xl font-bold mb-4'>
+                Frequently Asked Questions
+              </h2>
+              <p className='text-xl text-gray-600'>
+                Check out our frequently asked questions for more answers to
+                some of your questions
+              </p>
+            </div>
+
+            <div className='max-w-4xl mx-auto'>
+              <Accordion type='single' collapsible className='space-y-4'>
+                {faqs.map((faq, index) => (
+                  <AccordionItem
+                    key={index}
+                    value={`item-${index}`}
+                    className='border border-gray-200 rounded-lg'
+                  >
+                    <AccordionTrigger className='px-6 py-4 text-left hover:no-underline hover:bg-purple-50 rounded-lg'>
+                      <span className='text-purple-600 font-semibold'>
+                        {faq.question}
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className='px-6 pb-4 text-gray-600 leading-relaxed'>
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
+        </section>
 
         {/* Map Section */}
         <div className='mt-16'>

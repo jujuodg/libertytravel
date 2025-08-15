@@ -31,6 +31,13 @@ import { Badge } from '@/components/ui/badge';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { useState } from 'react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { faqs } from '@/lib/lists';
 
 const packages = [
   {
@@ -161,20 +168,21 @@ export default function PackagesPage() {
       <Header />
 
       {/* Hero Section */}
-      <div className='relative h-96 bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center'>
-        <div
-          className='absolute inset-0 bg-cover bg-center opacity-30'
-          style={{
-            backgroundImage: 'url(/vacation.jpg)',
-          }}
-        />
+      <section
+        className='relative bg-cover bg-center bg-no-repeat text-white py-32'
+        style={{
+          backgroundImage: "url('/vacation.jpg')",
+          // replace with your image path
+        }}
+      >
+        <div className='absolute inset-0 bg-black/30'></div>
         <div className='relative z-10 text-center text-white'>
           <h1 className='text-5xl font-bold mb-4 italic'>Vacation Packages</h1>
           <p className='text-xl'>
             Discover amazing destinations with our curated travel packages
           </p>
         </div>
-      </div>
+      </section>
 
       <div className='container mx-auto px-4 py-12'>
         {/* Featured Packages */}
@@ -534,6 +542,41 @@ export default function PackagesPage() {
                 </Dialog>
               </CardContent>
             </Card>
+          </div>
+        </section>
+
+        <section className='py-20'>
+          <div className='container mx-auto px-4'>
+            <div className='text-center mb-16'>
+              <h2 className='text-4xl font-bold mb-4'>
+                Frequently Asked Questions
+              </h2>
+              <p className='text-xl text-gray-600'>
+                Check out our frequently asked questions for more answers to
+                some of your questions
+              </p>
+            </div>
+
+            <div className='max-w-4xl mx-auto'>
+              <Accordion type='single' collapsible className='space-y-4'>
+                {faqs.map((faq, index) => (
+                  <AccordionItem
+                    key={index}
+                    value={`item-${index}`}
+                    className='border border-gray-200 rounded-lg'
+                  >
+                    <AccordionTrigger className='px-6 py-4 text-left hover:no-underline hover:bg-purple-50 rounded-lg'>
+                      <span className='text-purple-600 font-semibold'>
+                        {faq.question}
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className='px-6 pb-4 text-gray-600 leading-relaxed'>
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
           </div>
         </section>
       </div>

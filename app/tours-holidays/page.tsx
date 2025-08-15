@@ -88,13 +88,15 @@ export default function ToursHolidaysPage() {
       <Header />
 
       {/* Hero Section */}
-      <div className='relative h-96 bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center'>
-        <div
-          className='absolute inset-0 bg-cover bg-center opacity-20'
-          style={{
-            backgroundImage: "url('/tour.jpg')",
-          }}
-        />
+      <section
+        className='relative bg-cover bg-center bg-no-repeat text-white py-20'
+        style={{
+          backgroundImage:
+            "url('/WhatsApp Image 2025-08-11 at 16.12.07 (1).jpeg')",
+          // replace with your image path
+        }}
+      >
+        <div className='absolute inset-0 bg-black/35'></div>
         <div className='relative z-10 text-center text-white max-w-4xl mx-auto px-4'>
           <h1 className='text-5xl font-bold mb-4'>Tours & Holidays</h1>
           <p className='text-xl mb-8'>
@@ -110,7 +112,7 @@ export default function ToursHolidaysPage() {
             </Button>
           </Link>
         </div>
-      </div>
+      </section>
 
       <div className='container mx-auto px-4 py-12'>
         {/* Tour Types */}
@@ -244,22 +246,32 @@ export default function ToursHolidaysPage() {
         </section>
 
         {/* Call to Action */}
-        <section className='text-center bg-purple-600 text-white rounded-lg p-12'>
-          <h2 className='text-3xl font-bold mb-4'>
-            Ready for Your Next Adventure?
-          </h2>
-          <p className='text-xl mb-8'>
-            Browse our complete collection of tour packages and start planning
-            your dream vacation today
-          </p>
-          <Link href='/packages'>
-            <Button
-              size='lg'
-              className='bg-white text-purple-600 hover:bg-gray-100 font-semibold px-8 py-3'
-            >
-              Browse All Tours
-            </Button>
-          </Link>
+        <section
+          className='relative bg-cover bg-center bg-no-repeat text-white py-20'
+          style={{
+            backgroundImage:
+              "url('/WhatsApp Image 2025-08-11 at 16.12.07 (4).jpeg')",
+            // replace with your image path
+          }}
+        >
+          <div className='absolute inset-0 bg-black/40'></div>
+          <div className='relative container mx-auto px-4 text-center'>
+            <h2 className='text-3xl text-white font-bold mb-4'>
+              Ready for Your Next Adventure?
+            </h2>
+            <p className='text-xl text-white mb-8'>
+              Browse our complete collection of tour packages and start planning
+              your dream vacation today
+            </p>
+            <Link href='/packages'>
+              <Button
+                size='lg'
+                className='bg-white text-purple-600 hover:bg-gray-100 font-semibold px-8 py-3'
+              >
+                Browse All Tours
+              </Button>
+            </Link>
+          </div>
         </section>
       </div>
 

@@ -1,13 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, FileText, Globe, Users, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -17,8 +11,47 @@ import { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import dynamic from 'next/dynamic';
+import { SingleValue } from 'react-select';
+const AirportSelect = dynamic(() => import('../components/AirportSelect'), {
+  ssr: false,
+});
+import { countries } from '@/lib/lists';
+
+type CountryOption = {
+  value: string;
+  label: string;
+};
 
 export default function VisaAssistancePage() {
+  const services = [
+    {
+      title: 'Visa Requirements Analysis',
+      description:
+        'Comprehensive analysis of visa requirements for your destination',
+    },
+    {
+      title: 'Document Preparation',
+      description: 'Expert guidance on preparing all necessary documentation',
+    },
+    {
+      title: 'Application Process Support',
+      description: 'Step-by-step assistance throughout the application process',
+    },
+    {
+      title: 'Embassy Liaison',
+      description: 'Professional communication with embassies and consulates',
+    },
+    {
+      title: 'Transit Visa Assistance',
+      description: 'Help with transit visas for stopovers and connections',
+    },
+    {
+      title: 'Visa Status Updates',
+      description: 'Regular updates on your visa application status',
+    },
+  ];
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -30,6 +63,7 @@ export default function VisaAssistancePage() {
     passportCountry: '',
     passportNumber: '',
     message: '',
+    passportFile: null as File | null,
   });
 
   const handleInputChange = (
@@ -41,75 +75,71 @@ export default function VisaAssistancePage() {
     });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFormData({
+        ...formData,
+        passportFile: e.target.files[0], // store file in state
+      });
+    }
+  };
+
+  const handleSelectChange = (
+    field: 'destinationCountry' | 'passportCountry',
+    option: SingleValue<CountryOption>
+  ) => {
+    setFormData({
+      ...formData,
+      [field]: option ? option.value : '',
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission here
-  };
-  // const visaServices = [
-  //   {
-  //     title: 'Tourist Visa',
-  //     description:
-  //       'Complete assistance for tourist visa applications worldwide',
-  //     features: [
-  //       'Document preparation',
-  //       'Application submission',
-  //       'Interview coaching',
-  //       'Status tracking',
-  //     ],
-  //     processingTime: '5-15 days',
-  //     price: 'From ₦25,000',
-  //   },
-  //   {
-  //     title: 'Business Visa',
-  //     description: 'Professional visa services for business travelers',
-  //     features: [
-  //       'Business documentation',
-  //       'Invitation letters',
-  //       'Fast-track processing',
-  //       'Multiple entry options',
-  //     ],
-  //     processingTime: '3-10 days',
-  //     price: 'From ₦35,000',
-  //   },
-  //   {
-  //     title: 'Student Visa',
-  //     description: 'Educational visa support for international students',
-  //     features: [
-  //       'University liaison',
-  //       'Financial documentation',
-  //       'Accommodation proof',
-  //       'Health insurance',
-  //     ],
-  //     processingTime: '10-30 days',
-  //     price: 'From ₦40,000',
-  //   },
-  // ];
 
-  // const countries = [
-  //   { name: 'United States', flag: '🇺🇸', processing: '10-15 days' },
-  //   { name: 'United Kingdom', flag: '🇬🇧', processing: '5-10 days' },
-  //   { name: 'Canada', flag: '🇨🇦', processing: '7-14 days' },
-  //   { name: 'Schengen Area', flag: '🇪🇺', processing: '5-12 days' },
-  //   { name: 'Australia', flag: '🇦🇺', processing: '8-20 days' },
-  //   { name: 'Dubai/UAE', flag: '🇦🇪', processing: '3-7 days' },
-  // ];
+    const formPayload = new FormData();
+
+    // Append text fields
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== 'passportFile') {
+        formPayload.append(key, value as string);
+      }
+    });
+
+    // Append file if exists
+    if (formData.passportFile) {
+      formPayload.append('passport', formData.passportFile);
+    }
+
+    // fetch('/api/visa-assistance', {
+    //   method: 'POST',
+    //   body: formPayload,
+    // })
+    console.log('Form submitted:', formPayload);
+  };
 
   return (
     <div className='min-h-screen bg-gray-50'>
       <Header />
 
       {/* Hero Section */}
-      <section className='relative bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20'>
-        <div className='container mx-auto px-4'>
+      <section
+        className='relative bg-cover bg-center bg-no-repeat text-white py-20'
+        style={{
+          backgroundImage: "url('/assvis.jpg')",
+          // replace with your image path
+        }}
+      >
+        <div className='absolute inset-0 bg-black/30'></div>
+        <div className='relative container mx-auto px-4'>
           <div className='max-w-4xl mx-auto text-center'>
             <Badge className='mb-4 bg-white/20 text-white'>
               ✈️ Visa Experts
             </Badge>
-            <h1 className='text-5xl font-bold mb-6'>
+            <h1 className='text-5xl text-white font-bold mb-6'>
               Visa Assistance Services
             </h1>
-            <p className='text-xl mb-8 text-blue-100'>
+            <p className='text-xl mb-8 text-gray-100'>
               Professional visa consultation and application services for all
               destinations worldwide
             </p>
@@ -128,16 +158,13 @@ export default function VisaAssistancePage() {
 
       <div className='container mx-auto px-4 py-8'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-12'>
-          {/* Left Column - Information */}
+          {/* Left Column - Info */}
           <div>
             <h1 className='text-3xl font-bold mb-6'>Visa Assistance Program</h1>
-
             <p className='text-gray-600 mb-6'>
               Meet Liberty Hospitality Limited's Visa Team, our seasoned experts
-              specialize in navigating the complexities of visa processing. We
-              guide you every step of the way:
+              specialize in navigating the complexities of visa processing.
             </p>
-
             <ul className='space-y-3 mb-8'>
               <li className='flex items-start gap-3'>
                 <CheckCircle className='h-5 w-5 text-green-500 mt-0.5 flex-shrink-0' />
@@ -157,24 +184,12 @@ export default function VisaAssistancePage() {
               </li>
               <li className='flex items-start gap-3'>
                 <CheckCircle className='h-5 w-5 text-green-500 mt-0.5 flex-shrink-0' />
-                <span>
-                  Pre-interview sessions (where applicable) to boost your
-                  confidence and chances of success
-                </span>
+                <span>Pre-interview sessions to boost your confidence</span>
               </li>
             </ul>
-
             <p className='text-gray-600 mb-6'>
-              We prioritize integrity and transparency, discouraging any form of
-              immigration default. Visa issuance is ultimately at the embassy's
-              discretion, and we respect that process.
+              Visa issuance is ultimately at the embassy's discretion.
             </p>
-
-            <p className='text-gray-600 mb-8'>
-              Get personalized support from our visa consultants for all your
-              travel visa queries.
-            </p>
-
             <div className='space-y-2'>
               <p>
                 <span className='font-semibold'>Email:</span>{' '}
@@ -272,27 +287,39 @@ export default function VisaAssistancePage() {
                     </div>
                   </div>
 
+                  {/* Destination Country - react-select */}
                   <div>
-                    <Label htmlFor='destinationCountry'>
-                      Destination Country
-                    </Label>
-                    <Input
-                      id='destinationCountry'
-                      name='destinationCountry'
-                      value={formData.destinationCountry}
-                      onChange={handleInputChange}
-                      required
+                    <Label>Destination Country</Label>
+                    <AirportSelect
+                      inputId='destinationCountry'
+                      options={countries}
+                      value={
+                        countries.find(
+                          (c) => c.value === formData.destinationCountry
+                        ) || null
+                      }
+                      onChange={(option) =>
+                        handleSelectChange('destinationCountry', option)
+                      }
+                      placeholder='Select destination country'
                     />
                   </div>
 
+                  {/* Passport Country - react-select */}
                   <div>
-                    <Label htmlFor='passportCountry'>Passport Country</Label>
-                    <Input
-                      id='passportCountry'
-                      name='passportCountry'
-                      value={formData.passportCountry}
-                      onChange={handleInputChange}
-                      required
+                    <Label>Passport Country</Label>
+                    <AirportSelect
+                      inputId='passportCountry'
+                      options={countries}
+                      value={
+                        countries.find(
+                          (c) => c.value === formData.passportCountry
+                        ) || null
+                      }
+                      onChange={(option) =>
+                        handleSelectChange('passportCountry', option)
+                      }
+                      placeholder='Select passport country'
                     />
                   </div>
 
@@ -314,6 +341,7 @@ export default function VisaAssistancePage() {
                       name='passport'
                       type='file'
                       accept='.pdf,.jpg,.jpeg,.png'
+                      onChange={handleFileChange}
                     />
                   </div>
 
@@ -353,89 +381,73 @@ export default function VisaAssistancePage() {
             </Card>
           </div>
         </div>
-      </div>
-
-      {/* Process Steps */}
-      <section className='py-20 bg-gray-50'>
-        <div className='container mx-auto px-4'>
-          <div className='text-center mb-16'>
-            <h2 className='text-4xl font-bold mb-4'>Our Visa Process</h2>
-            <p className='text-xl text-gray-600'>
-              Simple steps to get your visa approved
-            </p>
-          </div>
-
-          <div className='grid md:grid-cols-4 gap-8'>
-            <div className='text-center'>
-              <div className='w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <FileText className='h-8 w-8 text-purple-600' />
-              </div>
-              <h3 className='text-xl font-semibold mb-2'>1. Consultation</h3>
-              <p className='text-gray-600'>
-                Free consultation to assess your visa requirements
-              </p>
-            </div>
-            <div className='text-center'>
-              <div className='w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <Users className='h-8 w-8 text-purple-600' />
-              </div>
-              <h3 className='text-xl font-semibold mb-2'>2. Documentation</h3>
-              <p className='text-gray-600'>
-                Assistance with document preparation and verification
-              </p>
-            </div>
-            <div className='text-center'>
-              <div className='w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <Globe className='h-8 w-8 text-purple-600' />
-              </div>
-              <h3 className='text-xl font-semibold mb-2'>3. Application</h3>
-              <p className='text-gray-600'>
-                Professional application submission and tracking
-              </p>
-            </div>
-            <div className='text-center'>
-              <div className='w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <CheckCircle className='h-8 w-8 text-purple-600' />
-              </div>
-              <h3 className='text-xl font-semibold mb-2'>4. Approval</h3>
-              <p className='text-gray-600'>
-                Visa collection and travel preparation
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className='py-20 bg-blue-600 text-white'>
-        <div className='container mx-auto px-4 text-center'>
-          <h2 className='text-4xl font-bold mb-4'>
-            Ready to Apply for Your Visa?
+        {/* Services Grid */}
+        <div className='mb-16 mt-16'>
+          <h2 className='text-3xl font-bold text-center mb-12'>
+            Our Visa Assistance Services
           </h2>
-          <p className='text-xl mb-8 text-blue-100'>
-            Get expert assistance with your visa application today
-          </p>
-          <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Link href='/contact'>
-              <Button
-                size='lg'
-                className='bg-white text-blue-600 hover:bg-gray-100'
-              >
-                Start Application
-              </Button>
-            </Link>
-            <a href='tel:08023874076'>
-              <Button
-                size='lg'
-                variant='outline'
-                className='border-white text-white hover:bg-white hover:text-blue-600 bg-transparent'
-              >
-                Call: +234 802 3874 076
-              </Button>
-            </a>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            {services.map((service, index) => (
+              <Card key={index} className='hover:shadow-lg transition-shadow'>
+                <CardHeader>
+                  <CardTitle className='flex items-center gap-2'>
+                    <CheckCircle className='h-5 w-5 text-green-500' />
+                    {service.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className='text-gray-600'>{service.description}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
-      </section>
+
+        {/* Process Section */}
+        <div className='mb-16'>
+          <h2 className='text-3xl font-bold text-center mb-12'>
+            Our Assistance Process
+          </h2>
+          <div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
+            <div className='text-center'>
+              <div className='w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <span className='text-2xl font-bold text-purple-600'>1</span>
+              </div>
+              <h3 className='font-semibold mb-2'>Consultation</h3>
+              <p className='text-gray-600 text-sm'>
+                Initial consultation to understand your travel needs
+              </p>
+            </div>
+            <div className='text-center'>
+              <div className='w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <span className='text-2xl font-bold text-purple-600'>2</span>
+              </div>
+              <h3 className='font-semibold mb-2'>Analysis</h3>
+              <p className='text-gray-600 text-sm'>
+                Detailed analysis of visa requirements and documentation
+              </p>
+            </div>
+            <div className='text-center'>
+              <div className='w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <span className='text-2xl font-bold text-purple-600'>3</span>
+              </div>
+              <h3 className='font-semibold mb-2'>Guidance</h3>
+              <p className='text-gray-600 text-sm'>
+                Step-by-step guidance through the application process
+              </p>
+            </div>
+            <div className='text-center'>
+              <div className='w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <span className='text-2xl font-bold text-purple-600'>4</span>
+              </div>
+              <h3 className='font-semibold mb-2'>Support</h3>
+              <p className='text-gray-600 text-sm'>
+                Ongoing support until visa approval
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <Footer />
     </div>

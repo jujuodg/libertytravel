@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import Header from '../components/header';
 import Footer from '../components/footer';
+import Image from 'next/image';
 
 export default function TravelHealthInsurance() {
   return (
@@ -19,8 +20,15 @@ export default function TravelHealthInsurance() {
       <Header />
 
       {/* Hero Section */}
-      <section className='bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 text-white py-20'>
-        <div className='container mx-auto px-4'>
+      <section
+        className='relative bg-cover bg-center bg-no-repeat text-white py-20'
+        style={{
+          backgroundImage: "url('/travelise.jpg')",
+          // replace with your image path
+        }}
+      >
+        <div className='absolute inset-0 bg-black/50'></div>
+        <div className='relative container mx-auto px-4'>
           <div className='max-w-4xl mx-auto text-center'>
             <div className='flex justify-center mb-6'>
               <Shield className='h-16 w-16 text-white' />
@@ -31,7 +39,7 @@ export default function TravelHealthInsurance() {
             <p className='text-xl md:text-2xl mb-8 opacity-90'>
               Your Safety Net Abroad
             </p>
-            <p className='text-lg md:text-xl max-w-3xl mx-auto leading-relaxed'>
+            <p className='text-lg md:text-xl max-w-3xl mx-auto text-white leading-relaxed'>
               As your trusted travel partner, we want to ensure you're protected
               against unexpected medical emergencies while exploring the world.
               That's why we highly recommend investing in travel health
@@ -271,6 +279,16 @@ export default function TravelHealthInsurance() {
           </div>
         </div>
       </section> */}
+
+      <section className='w-full flex justify-center items-center py-16'>
+        <Image
+          src={'/WhatsApp Image 2025-08-11 at 16.12.07 (3).jpeg'}
+          alt='liberty travels'
+          width={1500}
+          height={300}
+          className='h-[33rem]'
+        />
+      </section>
 
       <Footer />
     </div>

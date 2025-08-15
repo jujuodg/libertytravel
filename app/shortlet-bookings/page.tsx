@@ -55,6 +55,8 @@ import {
 } from '@/components/ui/carousel';
 import Header from '@/app/components/header';
 import Footer from '@/app/components/footer';
+import Link from 'next/link';
+import { scrollToSection } from '@/lib/lists';
 
 interface Shortlet {
   id: number;
@@ -282,12 +284,20 @@ export default function ShortletsPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className='bg-gradient-to-r from-purple-600 to-purple-800 text-white py-20'>
-        <div className='container mx-auto px-4 text-center'>
+      <section
+        className='relative bg-cover bg-center bg-no-repeat text-white py-20'
+        style={{
+          backgroundImage:
+            "url('/WhatsApp Image 2025-08-11 at 16.12.07 (2).jpeg')",
+          // replace with your image path
+        }}
+      >
+        <div className='absolute inset-0 bg-black/50'></div>
+        <div className='relative container mx-auto px-4 text-center'>
           <h1 className='text-4xl md:text-6xl font-bold mb-6'>
             Premium Shortlet Apartments
           </h1>
-          <p className='text-xl md:text-2xl mb-8 max-w-3xl mx-auto'>
+          <p className='text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto'>
             Discover comfortable, fully-furnished apartments for your short-term
             stays in Lagos. Perfect for business trips, vacations, or temporary
             relocations.
@@ -296,16 +306,19 @@ export default function ShortletsPage() {
             <Button
               size='lg'
               className='bg-white text-purple-600 hover:bg-gray-100'
+              onClick={() => scrollToSection('shortlets-section')}
             >
               Browse Apartments
             </Button>
-            <Button
-              size='lg'
-              variant='outline'
-              className='border-white text-white hover:bg-white hover:text-purple-600 bg-transparent'
-            >
-              Contact Us
-            </Button>
+            <Link href='/contact'>
+              <Button
+                size='lg'
+                variant='outline'
+                className='border-white text-white hover:bg-white hover:text-purple-600 bg-transparent'
+              >
+                Contact Us
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -323,7 +336,10 @@ export default function ShortletsPage() {
             </p>
           </div>
 
-          <div className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+          <div
+            id='shortlets-section'
+            className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+          >
             {shortlets.map((shortlet) => (
               <Card
                 key={shortlet.id}

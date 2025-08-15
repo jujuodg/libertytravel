@@ -1,27 +1,41 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Plane, MapPin, Calendar, Users, Star, ArrowRight } from 'lucide-react';
+import { Plane } from 'lucide-react';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
+import dynamic from 'next/dynamic';
+const AirportSelect = dynamic(() => import('../components/AirportSelect'), {
+  ssr: false,
+});
+
+// Example airport data
+const allAirports = [
+  { code: 'LHR', name: 'London Heathrow' },
+  { code: 'JFK', name: 'New York JFK' },
+  { code: 'DXB', name: 'Dubai International' },
+  { code: 'LOS', name: 'Murtala Muhammed Intl' },
+  { code: 'CDG', name: 'Paris Charles de Gaulle' },
+  { code: 'HND', name: 'Tokyo Haneda' },
+  { code: 'SYD', name: 'Sydney Kingsford Smith' },
+  { code: 'ATL', name: 'Atlanta Hartsfield–Jackson' },
+  // ...add your full dataset here
+];
+
+// Convert to 80% list
+const airports = allAirports
+  .slice(0, Math.floor(allAirports.length * 0.8))
+  .map((a) => ({
+    value: a.code,
+    label: `${a.name} (${a.code})`,
+  }));
 
 export default function FlightBookingsPage() {
   const [tripType, setTripType] = useState('roundtrip');
@@ -43,6 +57,13 @@ export default function FlightBookingsPage() {
     });
   };
 
+  const handleSelectChange = (field: 'from' | 'to', selected: any) => {
+    setFormData({
+      ...formData,
+      [field]: selected ? selected.value : '',
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Flight search:', { tripType, ...formData });
@@ -53,8 +74,15 @@ export default function FlightBookingsPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className='relative bg-gradient-to-r from-green-600 to-blue-600 text-white py-20'>
-        <div className='container mx-auto px-4'>
+      <section
+        className='relative bg-cover bg-center bg-no-repeat text-white py-40'
+        style={{
+          backgroundImage: "url('/flighthero.jpg')",
+          // replace with your image path
+        }}
+      >
+        <div className='absolute inset-0 bg-black/30'></div>
+        <div className='relative container mx-auto px-4'>
           <div className='max-w-4xl mx-auto text-center'>
             <Badge className='mb-4 bg-white/20 text-white'>
               ✈️ Best Flight Deals
@@ -69,7 +97,7 @@ export default function FlightBookingsPage() {
       </section>
 
       <div className='container mx-auto px-4 py-8'>
-        {/* Hero Section */}
+        {/* Intro */}
         <div className='text-center mb-12'>
           <h1 className='text-4xl font-bold mb-4'>Find Your Perfect Flight</h1>
           <p className='text-xl text-gray-600'>
@@ -109,24 +137,33 @@ export default function FlightBookingsPage() {
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <div>
                   <Label htmlFor='from'>From</Label>
-                  <Input
-                    id='from'
-                    name='from'
+                  <AirportSelect
+                    inputId='from'
+                    options={airports.filter((a) => a.value !== formData.to)}
+                    value={
+                      formData.from
+                        ? airports.find((a) => a.value === formData.from) ||
+                          null
+                        : null
+                    }
+                    onChange={(selected) =>
+                      handleSelectChange('from', selected)
+                    }
                     placeholder='Departure city or airport'
-                    value={formData.from}
-                    onChange={handleInputChange}
-                    required
                   />
                 </div>
                 <div>
                   <Label htmlFor='to'>To</Label>
-                  <Input
-                    id='to'
-                    name='to'
+                  <AirportSelect
+                    inputId='to'
+                    options={airports.filter((a) => a.value !== formData.from)}
+                    value={
+                      formData.to
+                        ? airports.find((a) => a.value === formData.to) || null
+                        : null
+                    }
+                    onChange={(selected) => handleSelectChange('to', selected)}
                     placeholder='Destination city or airport'
-                    value={formData.to}
-                    onChange={handleInputChange}
-                    required
                   />
                 </div>
               </div>

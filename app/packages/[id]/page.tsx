@@ -13,9 +13,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MapPin, Users, Star, Clock, Phone } from 'lucide-react';
+import { MapPin, Users, Star, Clock, Phone, Quote } from 'lucide-react';
 import Header from '../../components/header';
 import Footer from '../../components/footer';
+import { testimonials } from '@/lib/lists';
 
 const packages = [
   {
@@ -378,6 +379,47 @@ export default function PackageDetailsPage({
                 </Card>
               </TabsContent>
             </Tabs>
+            {/* Client Testimonials */}
+            <section className='py-20 bg-gray-50'>
+              <div className='container mx-auto px-4'>
+                {/* <div className='text-center mb-16'>
+                  <h2 className='text-4xl font-bold mb-4'>Clients Say</h2>
+                  <p className='text-xl text-gray-600'>
+                    Our goal is to make sure that our clients are always
+                    satisfied and get value for their money.
+                  </p>
+                </div> */}
+
+                <div className='grid md:grid-cols-3 gap-8'>
+                  {testimonials.map((testimonial, index) => (
+                    <Card
+                      key={index}
+                      className='px-5 py-2 hover:shadow-lg transition-shadow'
+                    >
+                      <CardContent className='p-0'>
+                        <div className='mb-6'>
+                          <Quote className='h-6 w-6 text-purple-600 mb-4' />
+                          <p className='text-gray-600 text-sm leading-relaxed mb-6'>
+                            {testimonial.text}
+                          </p>
+                          <div className='flex mb-4'>
+                            {[...Array(testimonial.rating)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className='h-5 w-5 text-yellow-400 fill-current'
+                              />
+                            ))}
+                          </div>
+                          <p className='font-bold text-gray-900'>
+                            {testimonial.name}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </section>
           </div>
 
           {/* Right Column - Booking Card */}
