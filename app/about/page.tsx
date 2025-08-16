@@ -227,7 +227,7 @@ export default function AboutPage() {
               href='https://wa.me/2348023874076'
               className='text-purple-600 hover:text-purple-700 font-medium'
             >
-              Apply Now &gt;
+              Book Now &gt;
             </Link>
           </div>
 
