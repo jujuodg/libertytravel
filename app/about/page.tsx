@@ -177,7 +177,7 @@ export default function AboutPage() {
                 <h3 className='text-3xl font-bold mb-4 text-purple-600'>
                   Our Mission
                 </h3>
-                <p className='text-gray-600 text-lg leading-relaxed'>
+                <p className='text-gray-600 md:text-lg leading-relaxed'>
                   To provide exceptional travel services that exceed our
                   clients' expectations while making international travel
                   accessible, affordable, and enjoyable for everyone. We are
@@ -192,7 +192,7 @@ export default function AboutPage() {
                 <h3 className='text-3xl font-bold mb-4 text-purple-600'>
                   Our Vision
                 </h3>
-                <p className='text-gray-600 text-lg leading-relaxed'>
+                <p className='text-gray-600 md:text-lg leading-relaxed'>
                   To become the leading travel service provider in West Africa,
                   recognized for our innovation, reliability, and
                   customer-centric approach. We envision a world where travel
@@ -211,23 +211,24 @@ export default function AboutPage() {
           {/* Tours & Holiday Packages */}
           <div>
             <h3 className='text-3xl font-bold mb-6 text-gray-900'>
-              Tours & Holiday Packages
+              Hotel Booking
             </h3>
             <p className='text-gray-600 mb-6 leading-relaxed'>
-              Experience the best tour packages for the world's most amazing
-              destinations with Liberty Hospitality! Every trip is customized to
-              meet your individual needs, ensuring that every detail is ideal
-              for you. Whether it's the pristine sands of the Maldives, a
-              Panoramic view from the world tallest building in Dubai, a game
-              drive through the Serengeti in Tanzania or a walk through South
-              America's jungles or coastal beaches, there's something for
-              everyone. Our team of expert will make your dream a reality.
+              Our hotel booking service makes finding the perfect stay simple
+              and stress-free. Search by destination and dates to explore a wide
+              selection of hotels, from budget-friendly options to luxury
+              resorts. Each listing comes with detailed descriptions, photos,
+              and guest reviews to help you choose with confidence. With
+              real-time availability, secure payments, and instant
+              confirmations, you can book your accommodation in just a few
+              clicks and focus on enjoying your trip.
             </p>
-            <p className='text-gray-600 leading-relaxed'>
-              No matter the occasion for destination weddings, honeymoon,
-              babymoon, couples short getaway, and others -We don't want you to
-              just see the sights, we want you to experience them.
-            </p>
+            <Link
+              href='https://wa.me/2348023874076'
+              className='text-purple-600 hover:text-purple-700 font-medium'
+            >
+              Apply Now &gt;
+            </Link>
           </div>
 
           {/* Airport Pickup/Transfers */}

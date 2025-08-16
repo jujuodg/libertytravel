@@ -14,6 +14,7 @@ import {
   MapPin,
   Facebook,
   Twitter,
+  X,
   Instagram,
   Linkedin,
   Car,
@@ -55,7 +56,7 @@ export default function Header() {
     {
       name: 'Twitter',
       href: 'https://twitter.com/',
-      icon: Twitter,
+      icon: X,
     },
     {
       name: 'Instagram',
@@ -64,7 +65,7 @@ export default function Header() {
     },
     {
       name: 'LinkedIn',
-      href: 'https://linkedin.com/company/libertyhospitality',
+      href: 'https://www.linkedin.com/company/liberty-hosptality-limited/?originalSubdomain=ng',
       icon: Linkedin,
     },
   ];
@@ -237,6 +238,13 @@ export default function Header() {
                     ))}
                   </div>
                 </div>
+                <Link
+                  href='/blog'
+                  className='text-lg font-semibold'
+                  onClick={() => setIsOpen(false)}
+                >
+                  Blog
+                </Link>
                 <Link
                   href='/contact'
                   className='text-lg font-semibold'
