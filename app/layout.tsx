@@ -6,8 +6,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Liberty Travels',
-    template: '%s | Liberty Travels',
+    default: 'Liberty Hospitality Limited',
+    template: '%s | Liberty Hospitality Limited',
   },
   description:
     'Your one-stop online travel agency for flights, hotels, and holiday packages.',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'Liberty Travels',
     'airport pickup',
   ],
-  generator: 'Liberty Travels',
+  generator: 'Liberty Hospitality Limited',
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description:
       'Book flights, hotels, and tours with Liberty Travels. Stress-free travel planning tailored for you.',
     url: 'https://libertytravelsng.com/',
-    siteName: 'Liberty Travels',
+    siteName: 'Liberty Hospitality Limited',
     images: [
       {
         url: '/logo.png',
@@ -68,7 +68,7 @@ export default function RootLayout({
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'TravelAgency',
-    name: 'Liberty Travels',
+    name: 'Liberty Hospitality Limited',
     url: 'https://libertytravelsng.com',
     logo: 'https://libertytravelsng.com/logo.png',
     contactPoint: {
