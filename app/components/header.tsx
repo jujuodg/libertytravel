@@ -49,17 +49,17 @@ export default function Header() {
   const socialLinks = [
     {
       name: 'Facebook',
-      href: 'https://facebook.com/libertyhospitality',
+      href: 'https://www.facebook.com/share/1BGfFGQSrC/',
       icon: Facebook,
     },
     {
       name: 'Twitter',
-      href: 'https://twitter.com/libertyhospitality',
+      href: 'https://twitter.com/',
       icon: Twitter,
     },
     {
       name: 'Instagram',
-      href: 'https://instagram.com/libertyhospitality',
+      href: 'https://www.instagram.com/libertytravels.ng?igsh=MXJmc2RxN2QzeTdtcQ==',
       icon: Instagram,
     },
     {
@@ -185,7 +185,7 @@ export default function Header() {
           </NavigationMenu>
 
           {/* WhatsApp Button */}
-          <Link href='https://wa.me/254722888888'>
+          <Link href='https://wa.me/2348023874076'>
             <Button className='hidden lg:flex bg-gray-500 hover:bg-gray-600 text-white'>
               <Phone className='mr-2 h-4 w-4' />
               Chat on WhatsApp
@@ -244,10 +244,12 @@ export default function Header() {
                 >
                   Contact Us
                 </Link>
-                <Button className='bg-gray-500 hover:bg-gray-600 text-white mt-4'>
-                  <Phone className='mr-2 h-4 w-4' />
-                  Chat on WhatsApp
-                </Button>
+                <Link href={'https://wa.me/2348023874076'}>
+                  <Button className='bg-gray-500 hover:bg-gray-600 text-white mt-4'>
+                    <Phone className='mr-2 h-4 w-4' />
+                    Chat on WhatsApp
+                  </Button>
+                </Link>
               </div>
             </SheetContent>
           </Sheet>
