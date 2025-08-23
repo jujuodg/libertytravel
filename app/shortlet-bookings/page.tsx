@@ -5,30 +5,15 @@ import type React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 import {
-  MapPin,
-  Bed,
-  Bath,
-  Car,
-  Wifi,
-  Tv,
-  Coffee,
-  Utensils,
-  Wind,
-  Shield,
-  Star,
   Calendar,
   Users,
-  User,
+  Home,
+  MessageSquare,
+  Phone,
+  Clock,
 } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -55,894 +40,587 @@ import {
 } from '@/components/ui/carousel';
 import Header from '@/app/components/header';
 import Footer from '@/app/components/footer';
-import Link from 'next/link';
-import { scrollToSection } from '@/lib/lists';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { shortFaqs } from '@/lib/lists';
 
-interface Shortlet {
-  id: number;
-  name: string;
-  location: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  bedrooms: number;
-  bathrooms: number;
-  maxGuests: number;
-  hasParking: boolean;
-  amenities: string[];
-  images: string[];
-  description: string;
-  features: string[];
-}
-
-const shortlets: Shortlet[] = [
+const shortletSlides = [
   {
     id: 1,
-    name: 'Luxury Penthouse Suite',
-    location: 'Victoria Island, Lagos',
-    price: 45000,
-    rating: 4.9,
-    reviews: 127,
-    bedrooms: 3,
-    bathrooms: 2,
-    maxGuests: 6,
-    hasParking: true,
-    amenities: [
-      'WiFi',
-      'Air Conditioning',
-      'Kitchen',
-      'TV',
-      'Security',
-      'Pool',
-    ],
-    images: [
-      '/placeholder.svg?height=400&width=600&text=Luxury+Penthouse+Living+Room',
-      '/placeholder.svg?height=400&width=600&text=Modern+Kitchen',
-      '/placeholder.svg?height=400&width=600&text=Master+Bedroom',
-      '/placeholder.svg?height=400&width=600&text=City+View+Balcony',
-    ],
+    image: '/short1.jpg',
+    title: 'Luxury Waterfront Apartments',
+    subtitle: 'Experience Premium Living',
     description:
-      'Experience luxury living in this stunning penthouse suite with panoramic city views. Perfect for business travelers and families seeking comfort and elegance.',
+      'Discover our collection of luxury waterfront apartments offering breathtaking views of Lagos lagoon. Each apartment is meticulously designed with modern amenities, premium furnishings, and world-class facilities. Perfect for business executives, couples, and discerning travelers who appreciate the finer things in life.',
     features: [
-      '24/7 Security',
-      'Rooftop Pool',
-      'Gym Access',
-      'Concierge Service',
-      'High-Speed Internet',
-      'Smart TV with Netflix',
+      'Panoramic water views',
+      '24/7 concierge service',
+      'Swimming pool & gym',
+      'High-speed WiFi',
+      'Premium appliances',
+      'Secure parking',
     ],
   },
   {
     id: 2,
-    name: 'Cozy Studio Apartment',
-    location: 'Lekki Phase 1, Lagos',
-    price: 18000,
-    rating: 4.6,
-    reviews: 89,
-    bedrooms: 1,
-    bathrooms: 1,
-    maxGuests: 2,
-    hasParking: true,
-    amenities: ['WiFi', 'Air Conditioning', 'Kitchenette', 'TV', 'Security'],
-    images: [
-      '/placeholder.svg?height=400&width=600&text=Cozy+Studio+Interior',
-      '/placeholder.svg?height=400&width=600&text=Compact+Kitchen',
-      '/placeholder.svg?height=400&width=600&text=Comfortable+Bed',
-      '/placeholder.svg?height=400&width=600&text=Modern+Bathroom',
-    ],
+    image: '/short2.jpg',
+    title: 'Modern City Studios',
+    subtitle: 'Urban Comfort Redefined',
     description:
-      'A perfect retreat for couples or solo travelers. This modern studio offers all the essentials in a stylish, compact space.',
+      'Our modern studio apartments in the heart of Lagos offer the perfect blend of comfort and convenience. Strategically located in prime areas like Lekki, Victoria Island, and Ikoyi, these studios are ideal for solo travelers, young professionals, and couples seeking a stylish urban retreat.',
     features: [
-      'Gated Community',
-      'Backup Generator',
-      'DSTV Subscription',
-      'Fully Furnished',
-      'Close to Shopping Mall',
-      '24/7 Water Supply',
+      'Prime city locations',
+      'Smart home technology',
+      'Fully equipped kitchenette',
+      'Work-friendly spaces',
+      '24/7 security',
+      'Easy transport access',
     ],
   },
   {
     id: 3,
-    name: 'Family Duplex',
-    location: 'Ikeja GRA, Lagos',
-    price: 35000,
-    rating: 4.8,
-    reviews: 156,
-    bedrooms: 4,
-    bathrooms: 3,
-    maxGuests: 8,
-    hasParking: true,
-    amenities: [
-      'WiFi',
-      'Air Conditioning',
-      'Full Kitchen',
-      'TV',
-      'Security',
-      'Garden',
-    ],
-    images: [
-      '/placeholder.svg?height=400&width=600&text=Spacious+Living+Room',
-      '/placeholder.svg?height=400&width=600&text=Dining+Area',
-      '/placeholder.svg?height=400&width=600&text=Children+Bedroom',
-      '/placeholder.svg?height=400&width=600&text=Private+Garden',
-    ],
+    image: '/short3.png',
+    title: 'Family Penthouse Suites',
+    subtitle: 'Spacious Luxury for Families',
     description:
-      'Spacious family home perfect for extended stays. Features a private garden and multiple bedrooms for large families or groups.',
+      'Our spacious penthouse suites are designed with families in mind. Featuring multiple bedrooms, expansive living areas, and private terraces, these accommodations provide the perfect home away from home. Enjoy panoramic city views while having access to family-friendly amenities and services.',
     features: [
-      'Private Parking for 2 Cars',
-      "Children's Play Area",
-      'Washing Machine',
-      'Microwave & Oven',
-      'Quiet Neighborhood',
-      'Close to Airport',
+      'Multiple bedrooms',
+      'Private terraces',
+      'Family-friendly amenities',
+      'Panoramic city views',
+      'Spacious living areas',
+      'Child-safe environments',
     ],
   },
   {
     id: 4,
-    name: 'Executive 2-Bedroom',
-    location: 'Ikoyi, Lagos',
-    price: 28000,
-    rating: 4.7,
-    reviews: 203,
-    bedrooms: 2,
-    bathrooms: 2,
-    maxGuests: 4,
-    hasParking: true,
-    amenities: [
-      'WiFi',
-      'Air Conditioning',
-      'Kitchen',
-      'TV',
-      'Security',
-      'Balcony',
-    ],
-    images: [
-      '/placeholder.svg?height=400&width=600&text=Executive+Living+Space',
-      '/placeholder.svg?height=400&width=600&text=Modern+Kitchen+Island',
-      '/placeholder.svg?height=400&width=600&text=Master+Suite',
-      '/placeholder.svg?height=400&width=600&text=Scenic+Balcony+View',
-    ],
+    image: '/short4.png',
+    title: 'Budget-Friendly Apartments',
+    subtitle: 'Comfort Without Compromise',
     description:
-      'Elegant 2-bedroom apartment in the heart of Ikoyi. Perfect for business executives and discerning travelers.',
+      "Quality accommodation doesn't have to break the bank. Our budget-friendly apartments offer excellent value without compromising on comfort and safety. Located in well-connected neighborhoods, these apartments are perfect for budget-conscious travelers, students, and extended stay guests.",
     features: [
-      'Premium Location',
-      'Elevator Access',
-      'Backup Power',
-      'Housekeeping Service',
-      'Business Center Access',
-      'Restaurant Nearby',
+      'Affordable rates',
+      'Clean & comfortable',
+      'Essential amenities',
+      'Safe neighborhoods',
+      'Flexible booking',
+      'Great value for money',
+    ],
+  },
+  {
+    id: 5,
+    image: '/short5.jpg',
+    title: 'Executive Business Suites',
+    subtitle: 'Professional Excellence',
+    description:
+      'Designed specifically for business travelers, our executive suites offer a professional environment with all the amenities needed for productive stays. From high-speed internet to dedicated workspaces, these suites ensure you can maintain your business operations seamlessly.',
+    features: [
+      'Dedicated workspace',
+      'High-speed internet',
+      'Meeting room access',
+      'Business center',
+      'Airport transfers',
+      'Professional environment',
     ],
   },
 ];
 
-const getAmenityIcon = (amenity: string) => {
-  const iconProps = 'h-5 w-5 text-purple-600';
-
-  switch (amenity) {
-    case 'WiFi':
-      return <Wifi className={iconProps} />;
-    case 'Air Conditioning':
-      return <Wind className={iconProps} />;
-    case 'Kitchen':
-    case 'Full Kitchen':
-      return <Utensils className={iconProps} />;
-    case 'Kitchenette':
-      return <Coffee className={iconProps} />;
-    case 'TV':
-      return <Tv className={iconProps} />;
-    case 'Security':
-      return <Shield className={iconProps} />;
-    case 'Pool':
-      return <span className='text-purple-600 text-xl'>🏊</span>;
-    case 'Garden':
-      return <span className='text-purple-600 text-xl'>🌿</span>;
-    case 'Balcony':
-      return <span className='text-purple-600 text-xl'>🏢</span>;
-    default:
-      return <span className='text-purple-600'>•</span>;
-  }
-};
-
 export default function ShortletsPage() {
-  const [selectedShortlet, setSelectedShortlet] = useState<Shortlet | null>(
-    null
-  );
-  const [isReservationOpen, setIsReservationOpen] = useState(false);
-  const [reservationData, setReservationData] = useState({
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    location: '',
     checkIn: '',
     checkOut: '',
+    days: '',
+    rooms: '',
     guests: '',
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
-    specialRequests: '',
+    specialRequirements: '',
   });
 
-  const handleReservation = (shortlet: Shortlet) => {
-    setSelectedShortlet(shortlet);
-    setIsReservationOpen(true);
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
-  const handleSubmitReservation = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle reservation submission
-    alert(`Reservation request submitted for ${selectedShortlet?.name}!`);
-    setIsReservationOpen(false);
-    setReservationData({
-      checkIn: '',
-      checkOut: '',
-      guests: '',
-      name: '',
-      email: '',
-      phone: '',
-      specialRequests: '',
-    });
+    console.log('Shortlet booking request:', formData);
+
+    const payload = {
+      ...formData,
+      formType: 'Shortlet Booking',
+    };
+    // Handle form submission here
+
+    try {
+      const res = await fetch('/api/form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setIsFormOpen(false);
+        // Reset form
+        setFormData({
+          location: '',
+          checkIn: '',
+          checkOut: '',
+          days: '',
+          rooms: '',
+          guests: '',
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          specialRequirements: '',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className='min-h-screen bg-gray-50'>
       <Header />
 
-      {/* Hero Section */}
-      <section
-        className='relative bg-cover bg-center bg-no-repeat text-white py-20'
-        style={{
-          backgroundImage:
-            "url('/WhatsApp Image 2025-08-11 at 16.12.07 (2).jpeg')",
-          // replace with your image path
-        }}
-      >
-        <div className='absolute inset-0 bg-black/50'></div>
-        <div className='relative container mx-auto px-4 text-center'>
-          <h1 className='text-4xl md:text-6xl font-bold mb-6'>
-            Premium Shortlet Apartments
-          </h1>
-          <p className='text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto'>
-            Discover comfortable, fully-furnished apartments for your short-term
-            stays in Lagos. Perfect for business trips, vacations, or temporary
-            relocations.
-          </p>
-          <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Button
-              size='lg'
-              className='bg-white text-purple-600 hover:bg-gray-100'
-              onClick={() => scrollToSection('shortlets-section')}
-            >
-              Browse Apartments
-            </Button>
-            <Link href='/contact'>
-              <Button
-                size='lg'
-                variant='outline'
-                className='border-white text-white hover:bg-white hover:text-purple-600 bg-transparent'
-              >
-                Contact Us
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Hero Section with Carousel */}
+      <section className='relative h-screen'>
+        <Carousel className='w-full h-full'>
+          <CarouselContent>
+            {shortletSlides.map((slide) => (
+              <CarouselItem key={slide.id}>
+                <div className='relative h-screen'>
+                  {/* Background Image */}
+                  <Image
+                    src={slide.image || '/placeholder.svg'}
+                    alt={slide.title}
+                    fill
+                    className='object-cover'
+                    priority
+                  />
 
-      {/* Shortlets Grid */}
-      <section className='py-16'>
-        <div className='container mx-auto px-4'>
-          <div className='text-center mb-12'>
-            <h2 className='text-3xl md:text-4xl font-bold text-gray-800 mb-4'>
-              Available Apartments
-            </h2>
-            <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
-              Choose from our carefully selected collection of premium shortlet
-              apartments across Lagos
-            </p>
-          </div>
+                  {/* Overlay */}
+                  <div className='absolute inset-0 bg-black/30' />
 
-          <div
-            id='shortlets-section'
-            className='grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
-          >
-            {shortlets.map((shortlet) => (
-              <Card
-                key={shortlet.id}
-                className='overflow-hidden hover:shadow-lg transition-shadow'
-              >
-                <CardHeader className='p-0'>
-                  <Carousel className='w-full'>
-                    <CarouselContent>
-                      {shortlet.images.map((image, index) => (
-                        <CarouselItem key={index}>
-                          <div className='relative h-48'>
-                            <Image
-                              src={image || '/placeholder.svg'}
-                              alt={`${shortlet.name} - Image ${index + 1}`}
-                              fill
-                              className='object-cover'
-                            />
-                          </div>
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                    <CarouselPrevious className='left-2' />
-                    <CarouselNext className='right-2' />
-                  </Carousel>
-                </CardHeader>
+                  {/* Content */}
+                  <div className='absolute inset-0 flex items-center justify-center'>
+                    <div className='container mx-auto px-4'>
+                      <div className='max-w-4xl mx-auto text-center text-white'>
+                        <h1 className='text-6xl md:text-7xl font-bold mb-4'>
+                          {slide.title}
+                        </h1>
+                        <p className='text-2xl md:text-3xl font-light mb-8 text-purple-200'>
+                          {slide.subtitle}
+                        </p>
+                        <p className='text-lg md:text-xl mb-12 max-w-3xl mx-auto leading-relaxed'>
+                          {slide.description}
+                        </p>
 
-                <CardContent className='p-4'>
-                  <div className='flex items-center justify-between mb-2'>
-                    <Badge
-                      variant='secondary'
-                      className='bg-purple-100 text-purple-800'
-                    >
-                      ₦{shortlet.price.toLocaleString()}/night
-                    </Badge>
-                    <div className='flex items-center gap-1'>
-                      <Star className='h-4 w-4 fill-yellow-400 text-yellow-400' />
-                      <span className='text-sm font-medium'>
-                        {shortlet.rating}
-                      </span>
-                      <span className='text-sm text-gray-500'>
-                        ({shortlet.reviews})
-                      </span>
-                    </div>
-                  </div>
-
-                  <CardTitle className='text-lg mb-2'>
-                    {shortlet.name}
-                  </CardTitle>
-
-                  <div className='flex items-center gap-1 text-gray-600 mb-3'>
-                    <MapPin className='h-4 w-4' />
-                    <span className='text-sm'>{shortlet.location}</span>
-                  </div>
-
-                  <div className='flex items-center gap-4 text-sm text-gray-600 mb-4'>
-                    <div className='flex items-center gap-1'>
-                      <Bed className='h-4 w-4' />
-                      <span>{shortlet.bedrooms} bed</span>
-                    </div>
-                    <div className='flex items-center gap-1'>
-                      <Bath className='h-4 w-4' />
-                      <span>{shortlet.bathrooms} bath</span>
-                    </div>
-                    <div className='flex items-center gap-1'>
-                      <Users className='h-4 w-4' />
-                      <span>{shortlet.maxGuests} guests</span>
-                    </div>
-                  </div>
-
-                  <div className='flex items-center gap-2 mb-4'>
-                    {shortlet.hasParking && (
-                      <Badge variant='outline' className='text-xs'>
-                        <Car className='h-3 w-3 mr-1' />
-                        Parking
-                      </Badge>
-                    )}
-                    <Badge variant='outline' className='text-xs'>
-                      <Wifi className='h-3 w-3 mr-1' />
-                      WiFi
-                    </Badge>
-                    <Badge variant='outline' className='text-xs'>
-                      <Wind className='h-3 w-3 mr-1' />
-                      AC
-                    </Badge>
-                  </div>
-                </CardContent>
-
-                <CardFooter className='p-4 pt-0 flex gap-2'>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant='outline'
-                        className='flex-1 bg-transparent'
-                      >
-                        View Details
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className='max-w-7xl w-[95vw] max-h-[95vh] overflow-y-auto'>
-                      <DialogHeader className='pb-6'>
-                        <DialogTitle className='text-3xl font-bold'>
-                          {shortlet.name}
-                        </DialogTitle>
-                        <div className='flex items-center justify-between mt-4'>
-                          <div className='flex items-center gap-2'>
-                            <MapPin className='h-6 w-6 text-purple-600' />
-                            <span className='text-lg font-medium text-gray-700'>
-                              {shortlet.location}
-                            </span>
-                          </div>
-                          <div className='flex items-center gap-2'>
-                            <Star className='h-6 w-6 fill-yellow-400 text-yellow-400' />
-                            <span className='text-lg font-medium'>
-                              {shortlet.rating}
-                            </span>
-                            <span className='text-gray-500'>
-                              ({shortlet.reviews} reviews)
-                            </span>
-                          </div>
-                        </div>
-                      </DialogHeader>
-
-                      <div className='space-y-8'>
-                        {/* Image Gallery */}
-                        <div className='w-full'>
-                          <Carousel className='w-full'>
-                            <CarouselContent>
-                              {shortlet.images.map((image, index) => (
-                                <CarouselItem key={index}>
-                                  <div className='relative h-96 md:h-[500px]'>
-                                    <Image
-                                      src={image || '/placeholder.svg'}
-                                      alt={`${shortlet.name} - Image ${
-                                        index + 1
-                                      }`}
-                                      fill
-                                      className='object-cover rounded-xl'
-                                    />
-                                  </div>
-                                </CarouselItem>
-                              ))}
-                            </CarouselContent>
-                            <CarouselPrevious className='left-4' />
-                            <CarouselNext className='right-4' />
-                          </Carousel>
+                        {/* Features Grid */}
+                        <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12 max-w-4xl mx-auto'>
+                          {slide.features.map((feature, index) => (
+                            <div
+                              key={index}
+                              className='flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg p-3'
+                            >
+                              <div className='w-2 h-2 bg-purple-400 rounded-full'></div>
+                              <span className='text-sm font-medium'>
+                                {feature}
+                              </span>
+                            </div>
+                          ))}
                         </div>
 
-                        {/* Main Content Grid */}
-                        <div className='grid lg:grid-cols-3 gap-8'>
-                          {/* Left Column - Details */}
-                          <div className='lg:col-span-2 space-y-8'>
-                            {/* Price and Description */}
-                            <div className='space-y-4'>
-                              <div className='text-4xl font-bold text-purple-600'>
-                                ₦{shortlet.price.toLocaleString()}
-                                <span className='text-xl text-gray-500 font-normal'>
-                                  /night
-                                </span>
-                              </div>
-                              <p className='text-lg text-gray-600 leading-relaxed'>
-                                {shortlet.description}
-                              </p>
-                            </div>
-
-                            {/* Room Details */}
-                            <div className='bg-gray-50 p-6 rounded-xl'>
-                              <h3 className='text-2xl font-semibold mb-6'>
-                                Room Details
-                              </h3>
-                              <div className='grid md:grid-cols-2 gap-6'>
-                                <div className='flex items-center gap-4'>
-                                  <div className='bg-purple-100 p-3 rounded-lg'>
-                                    <Bed className='h-8 w-8 text-purple-600' />
-                                  </div>
-                                  <div>
-                                    <div className='font-semibold text-lg'>
-                                      {shortlet.bedrooms}
-                                    </div>
-                                    <div className='text-gray-600'>
-                                      Bedrooms
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='flex items-center gap-4'>
-                                  <div className='bg-purple-100 p-3 rounded-lg'>
-                                    <Bath className='h-8 w-8 text-purple-600' />
-                                  </div>
-                                  <div>
-                                    <div className='font-semibold text-lg'>
-                                      {shortlet.bathrooms}
-                                    </div>
-                                    <div className='text-gray-600'>
-                                      Bathrooms
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='flex items-center gap-4'>
-                                  <div className='bg-purple-100 p-3 rounded-lg'>
-                                    <Users className='h-8 w-8 text-purple-600' />
-                                  </div>
-                                  <div>
-                                    <div className='font-semibold text-lg'>
-                                      {shortlet.maxGuests}
-                                    </div>
-                                    <div className='text-gray-600'>
-                                      Max Guests
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='flex items-center gap-4'>
-                                  <div className='bg-purple-100 p-3 rounded-lg'>
-                                    <Car className='h-8 w-8 text-purple-600' />
-                                  </div>
-                                  <div>
-                                    <div className='font-semibold text-lg'>
-                                      {shortlet.hasParking
-                                        ? 'Available'
-                                        : 'Not Available'}
-                                    </div>
-                                    <div className='text-gray-600'>Parking</div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Amenities */}
-                            <div>
-                              <h3 className='text-2xl font-semibold mb-6'>
-                                Amenities
-                              </h3>
-                              <div className='grid md:grid-cols-2 gap-4'>
-                                {shortlet.amenities.map((amenity, index) => (
-                                  <div
-                                    key={index}
-                                    className='flex items-center gap-4 p-4 bg-white rounded-lg border'
-                                  >
-                                    {getAmenityIcon(amenity)}
-                                    <span className='text-lg'>{amenity}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-
-                            {/* Features */}
-                            <div>
-                              <h3 className='text-2xl font-semibold mb-6'>
-                                Features & Services
-                              </h3>
-                              <div className='grid md:grid-cols-2 gap-3'>
-                                {shortlet.features.map((feature, index) => (
-                                  <div
-                                    key={index}
-                                    className='flex items-center gap-3 p-3 bg-white rounded-lg border'
-                                  >
-                                    <div className='w-2 h-2 bg-purple-600 rounded-full flex-shrink-0'></div>
-                                    <span className='text-gray-700'>
-                                      {feature}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Right Column - Reservation Card */}
-                          <div className='lg:col-span-1'>
-                            <div className='sticky top-4 bg-white p-6 rounded-xl border-2 border-purple-100 shadow-lg'>
-                              <div className='text-center mb-6'>
-                                <div className='text-3xl font-bold text-purple-600 mb-2'>
-                                  ₦{shortlet.price.toLocaleString()}
-                                  <span className='text-lg text-gray-500 font-normal'>
-                                    /night
-                                  </span>
-                                </div>
-                                <p className='text-gray-600'>
-                                  Ready to book your stay?
-                                </p>
-                              </div>
-                              <Button
-                                className='w-full bg-purple-600 hover:bg-purple-700 text-lg py-6'
-                                onClick={() => handleReservation(shortlet)}
-                              >
-                                Reserve This Apartment
-                              </Button>
-                              <div className='mt-4 text-center text-sm text-gray-500'>
-                                Free cancellation up to 24 hours before check-in
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        {/* Call to Action */}
+                        <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+                          <DialogTrigger asChild>
+                            <Button
+                              size='lg'
+                              className='bg-purple-600 hover:bg-purple-700 text-white px-12 py-6 text-xl font-semibold rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all duration-300'
+                            >
+                              Book Your Stay Now
+                            </Button>
+                          </DialogTrigger>
+                        </Dialog>
                       </div>
-                    </DialogContent>
-                  </Dialog>
-
-                  <Button
-                    className='flex-1 bg-purple-600 hover:bg-purple-700'
-                    onClick={() => handleReservation(shortlet)}
-                  >
-                    Reserve
-                  </Button>
-                </CardFooter>
-              </Card>
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
             ))}
-          </div>
-        </div>
+          </CarouselContent>
+          <CarouselPrevious className='left-8 h-12 w-12 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30' />
+          <CarouselNext className='right-8 h-12 w-12 bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30' />
+        </Carousel>
       </section>
 
-      {/* Reservation Modal */}
-      <Dialog open={isReservationOpen} onOpenChange={setIsReservationOpen}>
-        <DialogContent className='max-w-5xl w-[95vw] max-h-[95vh] overflow-y-auto'>
-          <DialogHeader className='pb-6'>
-            <DialogTitle className='text-3xl font-bold'>
-              Reserve {selectedShortlet?.name}
+      {/* Booking Form Dialog */}
+      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+        <DialogContent className='max-w-4xl w-[95vw] max-h-[95vh] overflow-y-auto'>
+          <DialogHeader className='mb-6'>
+            <DialogTitle className='text-2xl font-bold text-center'>
+              Book Your Shortlet Apartment
             </DialogTitle>
-            <p className='text-lg text-gray-600 mt-2'>
-              Complete your booking details below
+            <p className='text-gray-600 text-center'>
+              Fill out the form below and we'll find the perfect accommodation
+              for you
             </p>
           </DialogHeader>
 
-          <form onSubmit={handleSubmitReservation} className='space-y-8'>
-            <div className='grid lg:grid-cols-2 gap-8'>
-              {/* Left Column - Booking Form */}
-              <div className='space-y-8'>
-                {/* Booking Details */}
-                <div className='space-y-6'>
-                  <div className='flex items-center gap-3 pb-4 border-b'>
-                    <div className='bg-purple-100 p-2 rounded-lg'>
-                      <Calendar className='h-6 w-6 text-purple-600' />
-                    </div>
-                    <h3 className='text-2xl font-semibold'>Booking Details</h3>
-                  </div>
+          <form onSubmit={handleSubmit} className='space-y-8'>
+            {/* Stay Details Section */}
+            <div className='space-y-6'>
+              <h3 className='text-xl font-semibold flex items-center gap-2 border-b pb-2'>
+                <Calendar className='h-5 w-5 text-purple-600' />
+                Stay Details
+              </h3>
 
-                  <div className='grid md:grid-cols-2 gap-6'>
-                    <div className='space-y-2'>
-                      <Label htmlFor='checkIn' className='text-lg font-medium'>
-                        Check-in Date *
-                      </Label>
-                      <Input
-                        id='checkIn'
-                        type='date'
-                        value={reservationData.checkIn}
-                        onChange={(e) =>
-                          setReservationData({
-                            ...reservationData,
-                            checkIn: e.target.value,
-                          })
-                        }
-                        className='h-12 text-lg'
-                        required
-                      />
-                    </div>
-                    <div className='space-y-2'>
-                      <Label htmlFor='checkOut' className='text-lg font-medium'>
-                        Check-out Date *
-                      </Label>
-                      <Input
-                        id='checkOut'
-                        type='date'
-                        value={reservationData.checkOut}
-                        onChange={(e) =>
-                          setReservationData({
-                            ...reservationData,
-                            checkOut: e.target.value,
-                          })
-                        }
-                        className='h-12 text-lg'
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className='space-y-2'>
-                    <Label htmlFor='guests' className='text-lg font-medium'>
-                      Number of Guests *
-                    </Label>
-                    <Select
-                      value={reservationData.guests}
-                      onValueChange={(value) =>
-                        setReservationData({
-                          ...reservationData,
-                          guests: value,
-                        })
-                      }
-                    >
-                      <SelectTrigger className='h-12 text-lg'>
-                        <SelectValue placeholder='Select number of guests' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Array.from(
-                          { length: selectedShortlet?.maxGuests || 8 },
-                          (_, i) => (
-                            <SelectItem key={i + 1} value={(i + 1).toString()}>
-                              {i + 1} Guest{i + 1 > 1 ? 's' : ''}
-                            </SelectItem>
-                          )
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                {/* Personal Information */}
-                <div className='space-y-6'>
-                  <div className='flex items-center gap-3 pb-4 border-b'>
-                    <div className='bg-purple-100 p-2 rounded-lg'>
-                      <User className='h-6 w-6 text-purple-600' />
-                    </div>
-                    <h3 className='text-2xl font-semibold'>
-                      Personal Information
-                    </h3>
-                  </div>
-
-                  <div className='space-y-2'>
-                    <Label htmlFor='name' className='text-lg font-medium'>
-                      Full Name *
-                    </Label>
-                    <Input
-                      id='name'
-                      value={reservationData.name}
-                      onChange={(e) =>
-                        setReservationData({
-                          ...reservationData,
-                          name: e.target.value,
-                        })
-                      }
-                      placeholder='Enter your full name'
-                      className='h-12 text-lg'
-                      required
-                    />
-                  </div>
-
-                  <div className='grid md:grid-cols-2 gap-6'>
-                    <div className='space-y-2'>
-                      <Label htmlFor='email' className='text-lg font-medium'>
-                        Email Address *
-                      </Label>
-                      <Input
-                        id='email'
-                        type='email'
-                        value={reservationData.email}
-                        onChange={(e) =>
-                          setReservationData({
-                            ...reservationData,
-                            email: e.target.value,
-                          })
-                        }
-                        placeholder='your@email.com'
-                        className='h-12 text-lg'
-                        required
-                      />
-                    </div>
-                    <div className='space-y-2'>
-                      <Label htmlFor='phone' className='text-lg font-medium'>
-                        Phone Number *
-                      </Label>
-                      <Input
-                        id='phone'
-                        type='tel'
-                        value={reservationData.phone}
-                        onChange={(e) =>
-                          setReservationData({
-                            ...reservationData,
-                            phone: e.target.value,
-                          })
-                        }
-                        placeholder='+234 xxx xxx xxxx'
-                        className='h-12 text-lg'
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Special Requests */}
-                <div className='space-y-4'>
-                  <Label
-                    htmlFor='specialRequests'
-                    className='text-lg font-medium'
-                  >
-                    Special Requests
+              <div className='grid md:grid-cols-2 gap-6'>
+                <div>
+                  <Label htmlFor='location' className='text-sm font-medium'>
+                    Preferred Location
                   </Label>
-                  <Textarea
-                    id='specialRequests'
-                    value={reservationData.specialRequests}
-                    onChange={(e) =>
-                      setReservationData({
-                        ...reservationData,
-                        specialRequests: e.target.value,
-                      })
+                  <Select
+                    onValueChange={(value) =>
+                      handleInputChange('location', value)
                     }
-                    placeholder='Any special requests or requirements...'
-                    rows={4}
-                    className='text-lg'
+                  >
+                    <SelectTrigger className='h-12'>
+                      <SelectValue placeholder='Select preferred area' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='victoria-island'>
+                        Victoria Island
+                      </SelectItem>
+                      <SelectItem value='lekki-phase1'>
+                        Lekki Phase 1
+                      </SelectItem>
+                      <SelectItem value='lekki-phase2'>
+                        Lekki Phase 2
+                      </SelectItem>
+                      <SelectItem value='ikoyi'>Ikoyi</SelectItem>
+                      <SelectItem value='surulere'>Surulere</SelectItem>
+                      <SelectItem value='yaba'>Yaba</SelectItem>
+                      <SelectItem value='ikeja'>Ikeja</SelectItem>
+                      <SelectItem value='ajah'>Ajah</SelectItem>
+                      <SelectItem value='other'>
+                        Other (specify in requirements)
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor='days' className='text-sm font-medium'>
+                    Number of Days
+                  </Label>
+                  <Input
+                    id='days'
+                    type='number'
+                    min='1'
+                    placeholder='How many days?'
+                    className='h-12'
+                    value={formData.days}
+                    onChange={(e) => handleInputChange('days', e.target.value)}
+                    required
                   />
                 </div>
               </div>
 
-              {/* Right Column - Booking Summary */}
-              <div className='space-y-6'>
-                <div className='bg-gray-50 p-6 rounded-xl'>
-                  <h4 className='text-2xl font-semibold mb-6'>
-                    Booking Summary
-                  </h4>
-                  {selectedShortlet && (
-                    <div className='space-y-4'>
-                      <div className='relative h-48 rounded-lg overflow-hidden'>
-                        <Image
-                          src={selectedShortlet.images[0] || '/placeholder.svg'}
-                          alt={selectedShortlet.name}
-                          fill
-                          className='object-cover'
-                        />
-                      </div>
-                      <div className='space-y-3'>
-                        <div className='flex justify-between items-start'>
-                          <span className='text-gray-600'>Apartment:</span>
-                          <span className='font-semibold text-right'>
-                            {selectedShortlet.name}
-                          </span>
-                        </div>
-                        <div className='flex justify-between items-start'>
-                          <span className='text-gray-600'>Location:</span>
-                          <span className='font-medium text-right'>
-                            {selectedShortlet.location}
-                          </span>
-                        </div>
-                        <div className='flex justify-between items-center'>
-                          <span className='text-gray-600'>Rate per night:</span>
-                          <span className='font-bold text-lg text-purple-600'>
-                            ₦{selectedShortlet.price.toLocaleString()}
-                          </span>
-                        </div>
-                        <div className='pt-4 border-t'>
-                          <div className='flex items-center gap-2 mb-2'>
-                            <Bed className='h-5 w-5 text-gray-500' />
-                            <span>{selectedShortlet.bedrooms} Bedrooms</span>
-                          </div>
-                          <div className='flex items-center gap-2 mb-2'>
-                            <Bath className='h-5 w-5 text-gray-500' />
-                            <span>{selectedShortlet.bathrooms} Bathrooms</span>
-                          </div>
-                          <div className='flex items-center gap-2 mb-2'>
-                            <Users className='h-5 w-5 text-gray-500' />
-                            <span>
-                              Up to {selectedShortlet.maxGuests} Guests
-                            </span>
-                          </div>
-                          {selectedShortlet.hasParking && (
-                            <div className='flex items-center gap-2'>
-                              <Car className='h-5 w-5 text-gray-500' />
-                              <span>Parking Available</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+              <div className='grid md:grid-cols-2 gap-6'>
+                <div>
+                  <Label htmlFor='checkIn' className='text-sm font-medium'>
+                    Check-in Date
+                  </Label>
+                  <Input
+                    id='checkIn'
+                    type='date'
+                    className='h-12'
+                    value={formData.checkIn}
+                    onChange={(e) =>
+                      handleInputChange('checkIn', e.target.value)
+                    }
+                    required
+                  />
                 </div>
 
-                <div className='bg-purple-50 p-6 rounded-xl'>
-                  <h5 className='font-semibold text-lg mb-3'>
-                    What's Included
-                  </h5>
-                  <ul className='space-y-2 text-sm'>
-                    <li className='flex items-center gap-2'>
-                      <div className='w-2 h-2 bg-purple-600 rounded-full'></div>
-                      Free WiFi & Utilities
-                    </li>
-                    <li className='flex items-center gap-2'>
-                      <div className='w-2 h-2 bg-purple-600 rounded-full'></div>
-                      24/7 Security
-                    </li>
-                    <li className='flex items-center gap-2'>
-                      <div className='w-2 h-2 bg-purple-600 rounded-full'></div>
-                      Housekeeping Service
-                    </li>
-                    <li className='flex items-center gap-2'>
-                      <div className='w-2 h-2 bg-purple-600 rounded-full'></div>
-                      Customer Support
-                    </li>
-                  </ul>
+                <div>
+                  <Label htmlFor='checkOut' className='text-sm font-medium'>
+                    Check-out Date
+                  </Label>
+                  <Input
+                    id='checkOut'
+                    type='date'
+                    className='h-12'
+                    value={formData.checkOut}
+                    onChange={(e) =>
+                      handleInputChange('checkOut', e.target.value)
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className='grid md:grid-cols-2 gap-6'>
+                <div>
+                  <Label htmlFor='rooms' className='text-sm font-medium'>
+                    Number of Rooms
+                  </Label>
+                  <Select
+                    onValueChange={(value) => handleInputChange('rooms', value)}
+                  >
+                    <SelectTrigger className='h-12'>
+                      <SelectValue placeholder='How many rooms?' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='1'>1 Room</SelectItem>
+                      <SelectItem value='2'>2 Rooms</SelectItem>
+                      <SelectItem value='3'>3 Rooms</SelectItem>
+                      <SelectItem value='4'>4 Rooms</SelectItem>
+                      <SelectItem value='5+'>5+ Rooms</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor='guests' className='text-sm font-medium'>
+                    Number of Guests
+                  </Label>
+                  <Select
+                    onValueChange={(value) =>
+                      handleInputChange('guests', value)
+                    }
+                  >
+                    <SelectTrigger className='h-12'>
+                      <SelectValue placeholder='How many guests?' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='1'>1 Guest</SelectItem>
+                      <SelectItem value='2'>2 Guests</SelectItem>
+                      <SelectItem value='3'>3 Guests</SelectItem>
+                      <SelectItem value='4'>4 Guests</SelectItem>
+                      <SelectItem value='5'>5 Guests</SelectItem>
+                      <SelectItem value='6'>6 Guests</SelectItem>
+                      <SelectItem value='7+'>7+ Guests</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>
 
-            <div className='flex gap-6 pt-6 border-t'>
-              <Button
-                type='button'
-                variant='outline'
-                className='flex-1 h-12 text-lg bg-transparent'
-                onClick={() => setIsReservationOpen(false)}
-              >
-                Cancel
-              </Button>
+            {/* Personal Information Section */}
+            <div className='space-y-6'>
+              <h3 className='text-xl font-semibold flex items-center gap-2 border-b pb-2'>
+                <Users className='h-5 w-5 text-purple-600' />
+                Personal Information
+              </h3>
+
+              <div className='grid md:grid-cols-2 gap-6'>
+                <div>
+                  <Label htmlFor='firstName' className='text-sm font-medium'>
+                    First Name
+                  </Label>
+                  <Input
+                    id='firstName'
+                    placeholder='Enter your first name'
+                    className='h-12'
+                    value={formData.firstName}
+                    onChange={(e) =>
+                      handleInputChange('firstName', e.target.value)
+                    }
+                    required
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor='lastName' className='text-sm font-medium'>
+                    Last Name
+                  </Label>
+                  <Input
+                    id='lastName'
+                    placeholder='Enter your last name'
+                    className='h-12'
+                    value={formData.lastName}
+                    onChange={(e) =>
+                      handleInputChange('lastName', e.target.value)
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className='grid md:grid-cols-2 gap-6'>
+                <div>
+                  <Label htmlFor='email' className='text-sm font-medium'>
+                    Email Address
+                  </Label>
+                  <Input
+                    id='email'
+                    type='email'
+                    placeholder='Enter your email'
+                    className='h-12'
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor='phone' className='text-sm font-medium'>
+                    Phone Number
+                  </Label>
+                  <Input
+                    id='phone'
+                    type='tel'
+                    placeholder='Enter your phone number'
+                    className='h-12'
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Special Requirements Section */}
+            <div className='space-y-6'>
+              <h3 className='text-xl font-semibold flex items-center gap-2 border-b pb-2'>
+                <MessageSquare className='h-5 w-5 text-purple-600' />
+                Special Requirements
+              </h3>
+
+              <div>
+                <Label
+                  htmlFor='specialRequirements'
+                  className='text-sm font-medium'
+                >
+                  Additional Requirements or Preferences
+                </Label>
+                <Textarea
+                  id='specialRequirements'
+                  placeholder='Please specify any special requirements, preferences, or additional information (e.g., accessibility needs, specific amenities, pet-friendly, etc.)'
+                  className='min-h-[120px] mt-2'
+                  value={formData.specialRequirements}
+                  onChange={(e) =>
+                    handleInputChange('specialRequirements', e.target.value)
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className='pt-6 border-t'>
               <Button
                 type='submit'
-                className='flex-1 h-12 text-lg bg-purple-600 hover:bg-purple-700'
+                className='w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-lg font-semibold'
               >
-                Submit Reservation Request
+                Submit Booking Request
               </Button>
+              <p className='text-sm text-gray-500 text-center mt-3'>
+                We'll contact you within 24 hours to confirm your booking and
+                provide available options.
+              </p>
             </div>
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Additional Information Section */}
+      <section className='py-20 bg-white'>
+        <div className='container mx-auto px-4'>
+          <div className='max-w-4xl mx-auto text-center'>
+            <h2 className='text-4xl font-bold mb-8'>
+              Why Choose Our Shortlets?
+            </h2>
+            <div className='grid md:grid-cols-3 gap-8'>
+              <Card className='p-6 hover:shadow-lg transition-shadow'>
+                <CardContent className='text-center'>
+                  <Home className='h-12 w-12 text-purple-600 mx-auto mb-4' />
+                  <h3 className='text-xl font-semibold mb-3'>
+                    Premium Locations
+                  </h3>
+                  <p className='text-gray-600'>
+                    All our properties are located in prime areas of Lagos with
+                    easy access to business districts, entertainment, and
+                    transportation.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className='p-6 hover:shadow-lg transition-shadow'>
+                <CardContent className='text-center'>
+                  <Clock className='h-12 w-12 text-purple-600 mx-auto mb-4' />
+                  <h3 className='text-xl font-semibold mb-3'>24/7 Support</h3>
+                  <p className='text-gray-600'>
+                    Our dedicated support team is available round the clock to
+                    ensure your stay is comfortable and hassle-free.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className='p-6 hover:shadow-lg transition-shadow'>
+                <CardContent className='text-center'>
+                  <Phone className='h-12 w-12 text-purple-600 mx-auto mb-4' />
+                  <h3 className='text-xl font-semibold mb-3'>Easy Booking</h3>
+                  <p className='text-gray-600'>
+                    Simple and secure booking process with flexible payment
+                    options and instant confirmation.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className='py-20'>
+        <div className='container mx-auto px-4'>
+          <div className='text-center mb-16'>
+            <h2 className='text-4xl font-bold mb-4'>
+              Frequently Asked Questions
+            </h2>
+            <p className='text-xl text-gray-600'>
+              Check out our frequently asked questions for more answers to some
+              of your questions
+            </p>
+          </div>
+
+          <div className='max-w-4xl mx-auto'>
+            <Accordion type='single' collapsible className='space-y-4'>
+              {shortFaqs.map((faq, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  className='border border-gray-200 rounded-lg'
+                >
+                  <AccordionTrigger className='px-6 py-4 text-left hover:no-underline hover:bg-purple-50 rounded-lg'>
+                    <span className='text-purple-600 font-semibold'>
+                      {faq.question}
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className='px-6 pb-4 text-gray-600 leading-relaxed'>
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>

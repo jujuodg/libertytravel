@@ -141,11 +141,42 @@ export default function PackagesPage() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission here
     console.log('Custom package request:', formData);
+    const payload = {
+      formType: 'Custom Package Request',
+      ...formData,
+    };
     // You can add API call or email functionality here
+    try {
+      const res = await fetch('/api/form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          numberOfPeople: '',
+          destination: '',
+          budget: '',
+          duration: '',
+          travelDate: '',
+          specialRequests: '',
+        });
+      } else {
+        const errorData = await res.json();
+        console.error('Error submitting form:', errorData);
+        alert('Failed to submit form. Please try again later.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
     alert(
       "Thank you! We'll contact you within 24 hours with a custom package proposal."
     );

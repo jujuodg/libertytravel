@@ -1,35 +1,33 @@
 'use client';
 
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plane } from 'lucide-react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
+
+import { Plane, User, Phone, CreditCard } from 'lucide-react';
+
 import Header from '../components/header';
 import Footer from '../components/footer';
-import { useState } from 'react';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { allAirports } from '@/lib/lists';
 
-import dynamic from 'next/dynamic';
 const AirportSelect = dynamic(() => import('../components/AirportSelect'), {
   ssr: false,
 });
 
-// Example airport data
-const allAirports = [
-  { code: 'LHR', name: 'London Heathrow' },
-  { code: 'JFK', name: 'New York JFK' },
-  { code: 'DXB', name: 'Dubai International' },
-  { code: 'LOS', name: 'Murtala Muhammed Intl' },
-  { code: 'CDG', name: 'Paris Charles de Gaulle' },
-  { code: 'HND', name: 'Tokyo Haneda' },
-  { code: 'SYD', name: 'Sydney Kingsford Smith' },
-  { code: 'ATL', name: 'Atlanta Hartsfield–Jackson' },
-  // ...add your full dataset here
-];
-
-// Convert to 80% list
 const airports = allAirports
   .slice(0, Math.floor(allAirports.length * 0.8))
   .map((a) => ({
@@ -38,7 +36,10 @@ const airports = allAirports
   }));
 
 export default function FlightBookingsPage() {
-  const [tripType, setTripType] = useState('roundtrip');
+  const [tripType, setTripType] = useState<'roundtrip' | 'oneway'>('roundtrip');
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
   const [formData, setFormData] = useState({
     from: '',
     to: '',
@@ -47,26 +48,104 @@ export default function FlightBookingsPage() {
     adults: '1',
     children: '0',
     infants: '0',
-    class: 'economy',
+    travelClass: 'economy',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const [passengerData, setPassengerData] = useState({
+    title: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    dateOfBirth: '',
+    nationality: '',
+    passportNumber: '',
+    passportExpiry: '',
+    emergencyContact: '',
+    emergencyPhone: '',
+    specialRequests: '',
+  });
+
+  // ---- handlers ----
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectChange = (field: 'from' | 'to', selected: any) => {
-    setFormData({
-      ...formData,
+  const handlePassengerChange = (
+    name: keyof typeof passengerData,
+    value: string
+  ) => {
+    setPassengerData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (
+    field: 'from' | 'to',
+    selected: { value: string } | null
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
       [field]: selected ? selected.value : '',
-    });
+    }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Flight search:', { tripType, ...formData });
+    setLoading(true);
+    setStatus('idle');
+
+    const payload = {
+      formType: 'flight-booking',
+      tripType,
+      ...formData,
+      passenger: passengerData,
+    };
+
+    try {
+      const res = await fetch('/api/form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        // reset both forms to defaults
+        setFormData({
+          from: '',
+          to: '',
+          departureDate: '',
+          returnDate: '',
+          adults: '1',
+          children: '0',
+          infants: '0',
+          travelClass: 'economy',
+        });
+        setPassengerData({
+          title: '',
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          dateOfBirth: '',
+          nationality: '',
+          passportNumber: '',
+          passportExpiry: '',
+          emergencyContact: '',
+          emergencyPhone: '',
+          specialRequests: '',
+        });
+      } else {
+        setStatus('error');
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -76,12 +155,9 @@ export default function FlightBookingsPage() {
       {/* Hero Section */}
       <section
         className='relative bg-cover bg-center bg-no-repeat text-white py-40'
-        style={{
-          backgroundImage: "url('/flighthero.jpg')",
-          // replace with your image path
-        }}
+        style={{ backgroundImage: "url('/flighthero.jpg')" }}
       >
-        <div className='absolute inset-0 bg-black/30'></div>
+        <div className='absolute inset-0 bg-black/30' />
         <div className='relative container mx-auto px-4'>
           <div className='max-w-4xl mx-auto text-center'>
             <Badge className='mb-4 bg-white/20 text-white'>
@@ -97,7 +173,6 @@ export default function FlightBookingsPage() {
       </section>
 
       <div className='container mx-auto px-4 py-8'>
-        {/* Intro */}
         <div className='text-center mb-12'>
           <h1 className='text-4xl font-bold mb-4'>Find Your Perfect Flight</h1>
           <p className='text-xl text-gray-600'>
@@ -105,7 +180,6 @@ export default function FlightBookingsPage() {
           </p>
         </div>
 
-        {/* Flight Search Form */}
         <Card className='max-w-6xl mx-auto mb-12'>
           <CardHeader className='bg-purple-600 text-white'>
             <CardTitle className='text-2xl'>Book Your Flight</CardTitle>
@@ -119,7 +193,7 @@ export default function FlightBookingsPage() {
                 </Label>
                 <RadioGroup
                   value={tripType}
-                  onValueChange={setTripType}
+                  onValueChange={(v) => setTripType(v as any)}
                   className='flex gap-6'
                 >
                   <div className='flex items-center space-x-2'>
@@ -133,7 +207,7 @@ export default function FlightBookingsPage() {
                 </RadioGroup>
               </div>
 
-              {/* From and To */}
+              {/* From / To */}
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <div>
                   <Label htmlFor='from'>From</Label>
@@ -142,11 +216,11 @@ export default function FlightBookingsPage() {
                     options={airports.filter((a) => a.value !== formData.to)}
                     value={
                       formData.from
-                        ? airports.find((a) => a.value === formData.from) ||
+                        ? airports.find((a) => a.value === formData.from) ??
                           null
                         : null
                     }
-                    onChange={(selected) =>
+                    onChange={(selected: any) =>
                       handleSelectChange('from', selected)
                     }
                     placeholder='Departure city or airport'
@@ -159,10 +233,12 @@ export default function FlightBookingsPage() {
                     options={airports.filter((a) => a.value !== formData.from)}
                     value={
                       formData.to
-                        ? airports.find((a) => a.value === formData.to) || null
+                        ? airports.find((a) => a.value === formData.to) ?? null
                         : null
                     }
-                    onChange={(selected) => handleSelectChange('to', selected)}
+                    onChange={(selected: any) =>
+                      handleSelectChange('to', selected)
+                    }
                     placeholder='Destination city or airport'
                   />
                 </div>
@@ -177,7 +253,7 @@ export default function FlightBookingsPage() {
                     name='departureDate'
                     type='date'
                     value={formData.departureDate}
-                    onChange={handleInputChange}
+                    onChange={handleFormChange}
                     required
                   />
                 </div>
@@ -189,7 +265,7 @@ export default function FlightBookingsPage() {
                       name='returnDate'
                       type='date'
                       value={formData.returnDate}
-                      onChange={handleInputChange}
+                      onChange={handleFormChange}
                       required
                     />
                   </div>
@@ -207,7 +283,7 @@ export default function FlightBookingsPage() {
                     min='1'
                     max='9'
                     value={formData.adults}
-                    onChange={handleInputChange}
+                    onChange={handleFormChange}
                     required
                   />
                 </div>
@@ -220,7 +296,7 @@ export default function FlightBookingsPage() {
                     min='0'
                     max='9'
                     value={formData.children}
-                    onChange={handleInputChange}
+                    onChange={handleFormChange}
                   />
                 </div>
                 <div>
@@ -232,21 +308,19 @@ export default function FlightBookingsPage() {
                     min='0'
                     max='9'
                     value={formData.infants}
-                    onChange={handleInputChange}
+                    onChange={handleFormChange}
                   />
                 </div>
               </div>
 
               {/* Class */}
               <div>
-                <Label htmlFor='class'>Class</Label>
+                <Label htmlFor='travelClass'>Class</Label>
                 <select
-                  id='class'
-                  name='class'
-                  value={formData.class}
-                  onChange={(e) =>
-                    setFormData({ ...formData, class: e.target.value })
-                  }
+                  id='travelClass'
+                  name='travelClass'
+                  value={formData.travelClass}
+                  onChange={handleFormChange}
                   className='w-full p-2 border border-gray-300 rounded-md'
                 >
                   <option value='economy'>Economy</option>
@@ -256,19 +330,266 @@ export default function FlightBookingsPage() {
                 </select>
               </div>
 
+              <Separator className='my-8' />
+
+              {/* Passenger Information */}
+              <div>
+                <h3 className='text-2xl font-semibold mb-6 flex items-center'>
+                  <User className='mr-3 h-6 w-6 text-green-600' />
+                  Passenger Information
+                </h3>
+
+                {/* Personal */}
+                <div className='mb-8'>
+                  <h4 className='text-lg font-semibold mb-4 text-gray-700'>
+                    Personal Details
+                  </h4>
+                  <div className='grid md:grid-cols-3 gap-4 mb-4'>
+                    <div className='space-y-2'>
+                      <Label htmlFor='title'>Title</Label>
+                      <Select
+                        onValueChange={(v) => handlePassengerChange('title', v)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select title' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value='mr'>Mr.</SelectItem>
+                          <SelectItem value='mrs'>Mrs.</SelectItem>
+                          <SelectItem value='ms'>Ms.</SelectItem>
+                          <SelectItem value='dr'>Dr.</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className='space-y-2'>
+                      <Label htmlFor='firstName'>First Name</Label>
+                      <Input
+                        id='firstName'
+                        value={passengerData.firstName}
+                        onChange={(e) =>
+                          handlePassengerChange('firstName', e.target.value)
+                        }
+                        placeholder='Enter first name'
+                        required
+                      />
+                    </div>
+                    <div className='space-y-2'>
+                      <Label htmlFor='lastName'>Last Name</Label>
+                      <Input
+                        id='lastName'
+                        value={passengerData.lastName}
+                        onChange={(e) =>
+                          handlePassengerChange('lastName', e.target.value)
+                        }
+                        placeholder='Enter last name'
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className='grid md:grid-cols-2 gap-4'>
+                    <div className='space-y-2'>
+                      <Label htmlFor='dateOfBirth'>Date of Birth</Label>
+                      <Input
+                        id='dateOfBirth'
+                        type='date'
+                        value={passengerData.dateOfBirth}
+                        onChange={(e) =>
+                          handlePassengerChange('dateOfBirth', e.target.value)
+                        }
+                        required
+                      />
+                    </div>
+                    <div className='space-y-2'>
+                      <Label htmlFor='nationality'>Nationality</Label>
+                      <Select
+                        onValueChange={(v) =>
+                          handlePassengerChange('nationality', v)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select nationality' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value='nigerian'>Nigerian</SelectItem>
+                          <SelectItem value='american'>American</SelectItem>
+                          <SelectItem value='british'>British</SelectItem>
+                          <SelectItem value='canadian'>Canadian</SelectItem>
+                          <SelectItem value='other'>Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contact */}
+                <div className='mb-8'>
+                  <h4 className='text-lg font-semibold mb-4 text-gray-700 flex items-center'>
+                    <Phone className='mr-2 h-5 w-5' />
+                    Contact Information
+                  </h4>
+                  <div className='grid md:grid-cols-2 gap-4'>
+                    <div className='space-y-2'>
+                      <Label htmlFor='email'>Email Address</Label>
+                      <Input
+                        id='email'
+                        type='email'
+                        value={passengerData.email}
+                        onChange={(e) =>
+                          handlePassengerChange('email', e.target.value)
+                        }
+                        placeholder='Enter email address'
+                        required
+                      />
+                    </div>
+                    <div className='space-y-2'>
+                      <Label htmlFor='phone'>Phone Number</Label>
+                      <Input
+                        id='phone'
+                        type='tel'
+                        value={passengerData.phone}
+                        onChange={(e) =>
+                          handlePassengerChange('phone', e.target.value)
+                        }
+                        placeholder='Enter phone number'
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Passport */}
+                <div className='mb-8'>
+                  <h4 className='text-lg font-semibold mb-4 text-gray-700 flex items-center'>
+                    <CreditCard className='mr-2 h-5 w-5' />
+                    Passport Information
+                  </h4>
+                  <div className='grid md:grid-cols-2 gap-4'>
+                    <div className='space-y-2'>
+                      <Label htmlFor='passportNumber'>Passport Number</Label>
+                      <Input
+                        id='passportNumber'
+                        value={passengerData.passportNumber}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            'passportNumber',
+                            e.target.value
+                          )
+                        }
+                        placeholder='Enter passport number'
+                        required
+                      />
+                    </div>
+                    <div className='space-y-2'>
+                      <Label htmlFor='passportExpiry'>
+                        Passport Expiry Date
+                      </Label>
+                      <Input
+                        id='passportExpiry'
+                        type='date'
+                        value={passengerData.passportExpiry}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            'passportExpiry',
+                            e.target.value
+                          )
+                        }
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Emergency */}
+                <div className='mb-8'>
+                  <h4 className='text-lg font-semibold mb-4 text-gray-700 flex items-center'>
+                    <Phone className='mr-2 h-5 w-5' />
+                    Emergency Contact
+                  </h4>
+                  <div className='grid md:grid-cols-2 gap-4'>
+                    <div className='space-y-2'>
+                      <Label htmlFor='emergencyContact'>
+                        Emergency Contact Name
+                      </Label>
+                      <Input
+                        id='emergencyContact'
+                        value={passengerData.emergencyContact}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            'emergencyContact',
+                            e.target.value
+                          )
+                        }
+                        placeholder='Enter emergency contact name'
+                        required
+                      />
+                    </div>
+                    <div className='space-y-2'>
+                      <Label htmlFor='emergencyPhone'>
+                        Emergency Contact Phone
+                      </Label>
+                      <Input
+                        id='emergencyPhone'
+                        type='tel'
+                        value={passengerData.emergencyPhone}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            'emergencyPhone',
+                            e.target.value
+                          )
+                        }
+                        placeholder='Enter emergency contact phone'
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Special Requests */}
+                <div className='mb-8'>
+                  <h4 className='text-lg font-semibold mb-4 text-gray-700'>
+                    Special Requests (Optional)
+                  </h4>
+                  <div className='space-y-2'>
+                    <Label htmlFor='specialRequests'>
+                      Special Requests or Dietary Requirements
+                    </Label>
+                    <textarea
+                      id='specialRequests'
+                      value={passengerData.specialRequests}
+                      onChange={(e) =>
+                        handlePassengerChange('specialRequests', e.target.value)
+                      }
+                      placeholder='Enter any special requests, dietary requirements, or accessibility needs'
+                      className='w-full p-3 border border-gray-300 rounded-md resize-none h-24'
+                    />
+                  </div>
+                </div>
+              </div>
+
               <Button
                 type='submit'
                 size='lg'
                 className='w-full text-md bg-purple-600 hover:bg-purple-700'
+                disabled={loading}
               >
                 <Plane className='mr-2 h-5 w-5' />
-                Book Flight
+                {loading ? 'Submitting...' : 'Book Flight'}
               </Button>
+              {status === 'success' && (
+                <p className='text-green-600 text-sm'>
+                  Submitted successfully.
+                </p>
+              )}
+              {status === 'error' && (
+                <p className='text-red-600 text-sm'>
+                  Something went wrong. Try again.
+                </p>
+              )}
             </form>
           </CardContent>
         </Card>
 
-        {/* Flight Bookings Info */}
+        {/* Info */}
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
           <div className='relative'>
             <img

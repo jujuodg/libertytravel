@@ -94,7 +94,7 @@ export default function VisaAssistancePage() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const formPayload = new FormData();
@@ -102,20 +102,48 @@ export default function VisaAssistancePage() {
     // Append text fields
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== 'passportFile') {
-        formPayload.append(key, value as string);
+        formPayload.append(key, String(value ?? ''));
       }
     });
 
-    // Append file if exists
+    // Append file (if any)
     if (formData.passportFile) {
-      formPayload.append('passport', formData.passportFile);
+      formPayload.append('passport', formData.passportFile); // name it "passport"
     }
 
-    // fetch('/api/visa-assistance', {
-    //   method: 'POST',
-    //   body: formPayload,
-    // })
-    console.log('Form submitted:', formPayload);
+    // ✅ Add your extra field here
+    formPayload.append('formType', 'visa assistance');
+
+    try {
+      // IMPORTANT: do NOT set Content-Type; the browser will set the correct multipart boundary
+      const res = await fetch('/api/form', {
+        method: 'POST',
+        body: formPayload,
+      });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(`Submit failed: ${res.status} ${msg}`);
+      }
+
+      // reset
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        departureDate: '',
+        returnDate: '',
+        destinationCountry: '',
+        passportCountry: '',
+        passportNumber: '',
+        message: '',
+        passportFile: null as File | null,
+      });
+    } catch (error) {
+      console.error(error);
+      console.log('Form not submitted:', formPayload);
+    }
   };
 
   return (

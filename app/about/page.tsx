@@ -174,10 +174,10 @@ export default function AboutPage() {
           <div className='grid md:grid-cols-2 gap-12'>
             <Card className='px-12 mx-auto w-5/6 hover:shadow-lg transition-shadow'>
               <CardContent className='p-12'>
-                <h3 className='text-3xl font-bold mb-4 text-purple-600'>
+                <h3 className='md:text-3xl text-lg font-bold mb-4 text-purple-600'>
                   Our Mission
                 </h3>
-                <p className='text-gray-600 md:text-lg leading-relaxed'>
+                <p className='text-gray-600 text-xs md:text-lg leading-relaxed'>
                   To provide exceptional travel services that exceed our
                   clients' expectations while making international travel
                   accessible, affordable, and enjoyable for everyone. We are
@@ -189,10 +189,10 @@ export default function AboutPage() {
 
             <Card className='px-12 mx-auto w-5/6 hover:shadow-lg transition-shadow'>
               <CardContent className='p-12'>
-                <h3 className='text-3xl font-bold mb-4 text-purple-600'>
+                <h3 className='md:text-3xl text-lg font-bold mb-4 text-purple-600'>
                   Our Vision
                 </h3>
-                <p className='text-gray-600 md:text-lg leading-relaxed'>
+                <p className='text-gray-600 text-xs md:text-lg leading-relaxed'>
                   To become the leading travel service provider in West Africa,
                   recognized for our innovation, reliability, and
                   customer-centric approach. We envision a world where travel
@@ -389,39 +389,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      {/* <section className='py-20 bg-purple-600 text-white'>
-        <div className='container mx-auto px-4 text-center'>
-          <h2 className='text-4xl font-bold mb-4'>
-            Ready to Start Your Journey?
-          </h2>
-          <p className='text-xl mb-8 text-purple-100'>
-            Join thousands of satisfied customers who trust us with their travel
-            needs
-          </p>
-          <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <Link href='/contact'>
-              <Button
-                size='lg'
-                className='bg-white text-purple-600 hover:bg-gray-100'
-              >
-                Get Started
-                <ArrowRight className='ml-2 h-5 w-5' />
-              </Button>
-            </Link>
-            <Link href='/packages'>
-              <Button
-                size='lg'
-                variant='outline'
-                className='border-white text-white hover:bg-white hover:text-purple-600 bg-transparent'
-              >
-                View Packages
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section> */}
 
       <Footer />
     </div>

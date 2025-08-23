@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+
 import {
   Card,
   CardContent,
@@ -42,6 +43,7 @@ interface FormData {
   phone: string;
   service: string;
   message: string;
+  consent: boolean;
 }
 
 export default function ContactPage() {
@@ -52,6 +54,7 @@ export default function ContactPage() {
     phone: '',
     service: '',
     message: '',
+    consent: true,
   });
 
   const [loading, setLoading] = useState(false);
@@ -74,32 +77,38 @@ export default function ContactPage() {
     setStatus(null);
     console.log(formData);
 
-    // try {
-    //   const res = await fetch("/api/contact", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(formData)
-    //   });
+    const payload = {
+      ...formData,
+      formType: 'Contact Form',
+    };
 
-    //   if (res.ok) {
-    //     setStatus("success");
-    //     setFormData({
-    //       firstName: "",
-    //       lastName: "",
-    //       email: "",
-    //       phone: "",
-    //       service: "",
-    //       message: ""
-    //     });
-    //   } else {
-    //     setStatus("error");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    //   setStatus("error");
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      const res = await fetch('/api/form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setStatus('success');
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          service: '',
+          message: '',
+          consent: true,
+        });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const contactInfo = [
