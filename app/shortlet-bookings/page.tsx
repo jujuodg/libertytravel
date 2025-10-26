@@ -52,81 +52,81 @@ const shortletSlides = [
   {
     id: 1,
     image: '/short1.jpg',
-    title: 'Luxury Waterfront Apartments',
-    subtitle: 'Experience Premium Living',
+    title: 'Luxury Waterfront Residences',
+    subtitle: 'Where Comfort Meets Elegance',
     description:
-      'Discover our collection of luxury waterfront apartments offering breathtaking views of Lagos lagoon. Each apartment is meticulously designed with modern amenities, premium furnishings, and world-class facilities. Perfect for business executives, couples, and discerning travelers who appreciate the finer things in life.',
+      'Wake up to breathtaking lagoon views in our luxury waterfront residences — a fusion of hotel-grade comfort and shortlet privacy. Each unit combines refined interiors, curated art, and full modern amenities to create a truly elevated stay for business leaders, couples, and lifestyle travelers.',
     features: [
       'Panoramic water views',
-      '24/7 concierge service',
-      'Swimming pool & gym',
+      '24/7 concierge and housekeeping',
+      'Infinity pool & fitness studio',
       'High-speed WiFi',
-      'Premium appliances',
-      'Secure parking',
+      'Smart entertainment systems',
+      'Secure on-site parking',
     ],
   },
   {
     id: 2,
     image: '/short2.jpg',
-    title: 'Modern City Studios',
-    subtitle: 'Urban Comfort Redefined',
+    title: 'Modern City Studios & Hotel Rooms',
+    subtitle: 'Smart Living in Prime Locations',
     description:
-      'Our modern studio apartments in the heart of Lagos offer the perfect blend of comfort and convenience. Strategically located in prime areas like Lekki, Victoria Island, and Ikoyi, these studios are ideal for solo travelers, young professionals, and couples seeking a stylish urban retreat.',
+      'Our modern city studios and boutique hotel rooms sit in the heart of Lagos — blending the independence of a shortlet with the service of a premium hotel. Ideal for young professionals, digital nomads, and couples who crave stylish urban living with effortless access to top attractions.',
     features: [
-      'Prime city locations',
-      'Smart home technology',
-      'Fully equipped kitchenette',
-      'Work-friendly spaces',
-      '24/7 security',
-      'Easy transport access',
+      'Central locations: Lekki, VI, Ikoyi',
+      'Smart home features',
+      'Mini kitchenettes & lounge areas',
+      'Work-friendly desks',
+      '24-hour front desk & security',
+      'Instant check-in/out',
     ],
   },
   {
     id: 3,
     image: '/short3.png',
-    title: 'Family Penthouse Suites',
-    subtitle: 'Spacious Luxury for Families',
+    title: 'Family Suites & Penthouses',
+    subtitle: 'Space, Comfort, and Togetherness',
     description:
-      'Our spacious penthouse suites are designed with families in mind. Featuring multiple bedrooms, expansive living areas, and private terraces, these accommodations provide the perfect home away from home. Enjoy panoramic city views while having access to family-friendly amenities and services.',
+      'Whether you’re traveling as a family or group, our spacious penthouses and family suites offer the warmth of home with the service of a hotel. Enjoy large living spaces, fully equipped kitchens, and private terraces designed for shared moments and lasting memories.',
     features: [
-      'Multiple bedrooms',
-      'Private terraces',
+      'Multiple bedrooms & bathrooms',
+      'Private balconies/terraces',
       'Family-friendly amenities',
+      'Spacious living & dining areas',
       'Panoramic city views',
-      'Spacious living areas',
-      'Child-safe environments',
+      'Daily cleaning & concierge',
     ],
   },
   {
     id: 4,
     image: '/short4.png',
-    title: 'Budget-Friendly Apartments',
-    subtitle: 'Comfort Without Compromise',
+    title: 'Budget-Friendly Stays',
+    subtitle: 'Affordable Comfort, Trusted Quality',
     description:
-      "Quality accommodation doesn't have to break the bank. Our budget-friendly apartments offer excellent value without compromising on comfort and safety. Located in well-connected neighborhoods, these apartments are perfect for budget-conscious travelers, students, and extended stay guests.",
+      'Perfect for short visits or extended stays, our budget-friendly shortlets and hotel rooms deliver clean, secure, and comfortable experiences without the high price tag. Great for students, solo travelers, or guests seeking convenience on a budget.',
     features: [
-      'Affordable rates',
-      'Clean & comfortable',
+      'Competitive rates',
+      'Fully furnished interiors',
       'Essential amenities',
-      'Safe neighborhoods',
-      'Flexible booking',
-      'Great value for money',
+      'Safe, accessible locations',
+      'Flexible check-in/out',
+      'Reliable housekeeping',
     ],
   },
   {
     id: 5,
     image: '/short5.jpg',
-    title: 'Executive Business Suites',
-    subtitle: 'Professional Excellence',
+    title: 'Executive Business Hotels',
+    subtitle: 'Stay Productive, Stay Relaxed',
     description:
-      'Designed specifically for business travelers, our executive suites offer a professional environment with all the amenities needed for productive stays. From high-speed internet to dedicated workspaces, these suites ensure you can maintain your business operations seamlessly.',
+      'Our executive business suites and hotels are designed for productivity and rest. With elegant interiors, fast WiFi, meeting rooms, and business lounge access, you can focus on work while enjoying the comfort of a premium stay in the city.',
     features: [
-      'Dedicated workspace',
+      'Dedicated workspace & ergonomic seating',
       'High-speed internet',
-      'Meeting room access',
-      'Business center',
-      'Airport transfers',
-      'Professional environment',
+      'On-site meeting facilities',
+      'Business lounge & printing services',
+      'Airport pickup & drop-off',
+      'Concierge and room service',
     ],
   },
 ];
@@ -273,7 +273,7 @@ export default function ShortletsPage() {
         <DialogContent className='max-w-4xl w-[95vw] max-h-[95vh] overflow-y-auto'>
           <DialogHeader className='mb-6'>
             <DialogTitle className='text-2xl font-bold text-center'>
-              Book Your Shortlet Apartment
+              Book Your Shortlet/Hotel Stay
             </DialogTitle>
             <p className='text-gray-600 text-center'>
               Fill out the form below and we'll find the perfect accommodation
@@ -546,39 +546,44 @@ export default function ShortletsPage() {
             <h2 className='text-4xl font-bold mb-8'>
               Why Choose Our Shortlets?
             </h2>
-            <div className='grid md:grid-cols-3 gap-8'>
-              <Card className='p-6 hover:shadow-lg transition-shadow'>
+            <div className='grid md:grid-cols-3 gap-28'>
+              <Card className='p-6 w-80 hover:shadow-lg transition-shadow'>
                 <CardContent className='text-center'>
                   <Home className='h-12 w-12 text-purple-600 mx-auto mb-4' />
                   <h3 className='text-xl font-semibold mb-3'>
                     Premium Locations
                   </h3>
                   <p className='text-gray-600'>
-                    All our properties are located in prime areas of Lagos with
-                    easy access to business districts, entertainment, and
-                    transportation.
+                    Stay where convenience meets class. Our properties sit in
+                    prime areas with quick access to airports, shopping malls,
+                    beaches, and nightlife. Whether you’re in town for work or
+                    leisure, you’ll always be right where you need to be.
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className='p-6 hover:shadow-lg transition-shadow'>
+              <Card className='p-6 w-80 hover:shadow-lg transition-shadow'>
                 <CardContent className='text-center'>
                   <Clock className='h-12 w-12 text-purple-600 mx-auto mb-4' />
                   <h3 className='text-xl font-semibold mb-3'>24/7 Support</h3>
                   <p className='text-gray-600'>
-                    Our dedicated support team is available round the clock to
-                    ensure your stay is comfortable and hassle-free.
+                    Hospitality doesn’t sleep. Our 24/7 support guarantees that
+                    whenever you need assistance early morning or midnight help
+                    is available instantly, ensuring a smooth, stress-free
+                    experience.
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className='p-6 hover:shadow-lg transition-shadow'>
+              <Card className='p-6 w-80 hover:shadow-lg transition-shadow'>
                 <CardContent className='text-center'>
                   <Phone className='h-12 w-12 text-purple-600 mx-auto mb-4' />
                   <h3 className='text-xl font-semibold mb-3'>Easy Booking</h3>
                   <p className='text-gray-600'>
-                    Simple and secure booking process with flexible payment
-                    options and instant confirmation.
+                    Simple, secure, and fast — that’s how booking should be.
+                    Choose your location, select your dates, and get immediate
+                    confirmation. We make travel planning as easy as it should
+                    be.
                   </p>
                 </CardContent>
               </Card>

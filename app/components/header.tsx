@@ -42,7 +42,11 @@ export default function Header() {
       href: '/travel-insurance',
       icon: HeartPulse,
     },
-    { name: 'Shortlet Apartments', href: '/shortlet-bookings', icon: Building },
+    {
+      name: 'Shortlet Apartments/Hotels',
+      href: '/shortlet-bookings',
+      icon: Building,
+    },
     { name: 'Tours & Holidays', href: '/tours-holidays', icon: Globe },
     { name: 'Airport Pickup', href: '/about', icon: Car },
   ];

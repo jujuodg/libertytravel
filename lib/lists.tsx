@@ -818,54 +818,56 @@ export const testimonials = [
 
 export const shortFaqs = [
   {
-    question: 'What is a shortlet apartment?',
+    question:
+      'What is the difference between a hotel and a shortlet apartment?',
     answer:
-      'A shortlet apartment is a fully furnished apartment available for short stays, typically ranging from a few days to a few months. It’s ideal for travelers, business professionals, or families who want the comfort of home while away.',
+      'Hotels offer traditional hospitality services such as room service, concierge support, and daily cleaning, ideal for short-term or overnight stays. Shortlet apartments, on the other hand, are fully furnished residential-style spaces perfect for longer stays, providing more privacy, kitchen access, and a home-like experience.',
   },
   {
-    question: 'What is included in a shortlet apartment booking?',
+    question:
+      'What amenities are included in your hotels and shortlet apartments?',
     answer:
-      'Our shortlet apartments come fully furnished with essentials such as a kitchen, living area, bedroom, and bathroom. Utilities like electricity, water, and Wi-Fi are usually included. Some apartments also offer housekeeping services.',
+      'All our accommodations are fully equipped with modern amenities such as air conditioning, Wi-Fi, smart TVs, and comfortable bedding. Shortlets include additional features like kitchens, laundry facilities, and living spaces, while our hotels offer on-site restaurants, lounges, and 24/7 front desk service.',
   },
   {
     question: 'Is there a minimum stay requirement?',
     answer:
-      'Yes, most of our shortlet apartments require a minimum stay of at least 2–3 nights, depending on the property. Longer stays often come with discounted rates.',
+      'For hotels, you can book a stay for as short as one night. Our shortlet apartments, however, typically require a minimum stay of 2–3 nights, depending on the property. Discounts are available for extended stays in both options.',
   },
   {
-    question: 'Are your shortlet apartments safe?',
+    question: 'Are your hotels and shortlets safe?',
     answer:
-      'Absolutely. We carefully verify and inspect all our shortlet apartments to ensure they meet safety and quality standards. Many of our properties are in secured estates or buildings with 24/7 security.',
+      'Yes, safety is our top priority. All our hotels and shortlet apartments are located in secure neighborhoods and equipped with 24/7 security or controlled access. Many properties also have CCTV surveillance and on-site staff to ensure peace of mind throughout your stay.',
   },
   {
-    question: 'Can I book a shortlet apartment for a group or family?',
+    question: 'Can I book accommodation for a group or family?',
     answer:
-      'Yes. We have a wide range of shortlet apartments, from studio apartments for solo travelers to multi-bedroom apartments suitable for families and groups.',
+      'Absolutely. Whether you need a hotel suite or a multi-bedroom shortlet apartment, we have a wide range of options suitable for families, groups, and business travelers. Simply let us know your group size and preferences, and we’ll recommend the best fit.',
   },
   {
-    question: 'Do you offer airport pick-up or transport services?',
+    question: 'Do you offer airport pick-up or transportation services?',
     answer:
-      'Yes, we can arrange airport pick-up and drop-off services to make your stay more convenient. Please let us know in advance if you’d like to add transport services to your booking.',
+      'Yes, we offer airport transfers and local transport services for both hotel and shortlet guests. You can request these services while booking or contact our support team to arrange them ahead of your arrival.',
   },
   {
     question: 'What payment options are available?',
     answer:
-      'We accept multiple payment methods including bank transfers, debit/credit cards, and secure online payment links. A booking deposit may be required to confirm your reservation.',
+      'We accept a variety of secure payment methods including debit/credit cards, bank transfers, and verified online payment links. Depending on your booking type, a deposit or full payment may be required to confirm your reservation.',
   },
   {
     question: 'Can I extend my stay?',
     answer:
-      'Yes, you can extend your stay depending on availability. We recommend informing us early so we can secure the apartment for your extended period.',
+      'Yes, extensions are welcome depending on availability. For hotels, you can request an extension at the front desk. For shortlets, we recommend notifying us as early as possible so we can secure the property for your extended stay.',
   },
   {
     question: 'What is your cancellation policy?',
     answer:
-      'Our cancellation policy varies by property. Generally, cancellations made at least 7 days before check-in may qualify for a refund, while last-minute cancellations may attract partial or no refunds.',
+      'Our cancellation policy depends on the type of accommodation and duration of stay. Generally, cancellations made at least 7 days before check-in qualify for a full or partial refund. For last-minute cancellations, fees may apply.',
   },
   {
-    question: 'Are utilities and Wi-Fi included?',
+    question: 'Are utilities, housekeeping, and Wi-Fi included?',
     answer:
-      'Yes, most of our shortlet apartments include utilities such as water, electricity, and unlimited Wi-Fi. However, in some locations, electricity may be prepaid, and guests may need to top up after a certain usage level.',
+      'Yes, all our hotels and shortlets include free Wi-Fi and essential utilities like water and electricity. Hotel guests enjoy daily housekeeping, while shortlet guests receive cleaning services at scheduled intervals or upon request.',
   },
 ];
 
