@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import MailchimpPopup from '@/components/mailchimp';
 import {
   Plane,
   Building2,
@@ -142,6 +143,7 @@ export default function HomePage() {
   return (
     <div className='min-h-screen bg-white'>
       <Header />
+      <MailchimpPopup />
 
       {/* Hero Section */}
       <section
