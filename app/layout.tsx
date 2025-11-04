@@ -139,9 +139,19 @@ export default function RootLayout({
             __html: JSON.stringify(travelAgencyJsonLd),
           }}
         />
+
         <script
           type='application/ld+json'
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+        />
+
+        <script
+          id='mcjs'
+          dangerouslySetInnerHTML={{
+            __html: `
+          !function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/0feedd981fc6ffd5a9323341d/1bc5a23e0bea192240e7e8ac8.js");
+        `,
+          }}
         />
       </head>
       <body>{children}</body>
