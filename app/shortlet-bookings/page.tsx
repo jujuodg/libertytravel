@@ -11,6 +11,12 @@ import {
   MessageSquare,
   Phone,
   Clock,
+  PhoneCall,
+  Lock,
+  Zap,
+  CheckCircle,
+  Wifi,
+  UtensilsCrossed,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -46,16 +52,26 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { shortFaqs } from '@/lib/lists';
+import { accommodations, shortFaqs } from '@/lib/lists';
+import { useRouter } from 'next/navigation';
+import ImageCarouselModal from '@/components/ImageCarousel';
+
+type Accommodation = {
+  id: number;
+  title: string;
+  location: string;
+  tags: string[];
+  images: string[];
+};
 
 const shortletSlides = [
   {
     id: 1,
     image: '/short1.jpg',
-    title: 'Luxury Waterfront Residences',
+    title: 'Stay in Style From Luxury Hotels to Private Shortlets',
     subtitle: 'Where Comfort Meets Elegance',
     description:
-      'Wake up to breathtaking lagoon views in our luxury waterfront residences — a fusion of hotel-grade comfort and shortlet privacy. Each unit combines refined interiors, curated art, and full modern amenities to create a truly elevated stay for business leaders, couples, and lifestyle travelers.',
+      "Discover carefully selected stays that combine comfort, convenience, and class. Whether it's an elegant hotel or a modern shortlet, we handpick spaces that fit every mood and travel style.",
     features: [
       'Panoramic water views',
       '24/7 concierge and housekeeping',
@@ -132,6 +148,9 @@ const shortletSlides = [
 ];
 
 export default function ShortletsPage() {
+  const router = useRouter();
+  const [selectedAccommodation, setSelectedAccommodation] =
+    useState<Accommodation | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState({
     location: '',
@@ -194,7 +213,7 @@ export default function ShortletsPage() {
   };
 
   return (
-    <div className='min-h-screen bg-gray-50'>
+    <div className='min-h-screen bg-white'>
       <Header />
 
       {/* Hero Section with Carousel */}
@@ -246,16 +265,14 @@ export default function ShortletsPage() {
                         </div>
 
                         {/* Call to Action */}
-                        <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-                          <DialogTrigger asChild>
-                            <Button
-                              size='lg'
-                              className='bg-purple-600 hover:bg-purple-700 text-white px-12 py-6 text-xl font-semibold rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all duration-300'
-                            >
-                              Book Your Stay Now
-                            </Button>
-                          </DialogTrigger>
-                        </Dialog>
+
+                        <Button
+                          onClick={() => router.push('/contact')}
+                          size='lg'
+                          className='bg-purple-600 hover:bg-purple-700 text-white px-12 py-6 text-xl font-semibold rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all duration-300'
+                        >
+                          Talk to an Agent
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -540,7 +557,7 @@ export default function ShortletsPage() {
       </Dialog>
 
       {/* Additional Information Section */}
-      <section className='py-20 bg-white'>
+      {/* <section className='py-20 bg-white'>
         <div className='container mx-auto px-4'>
           <div className='max-w-4xl mx-auto text-center'>
             <h2 className='text-4xl font-bold mb-8'>
@@ -590,6 +607,273 @@ export default function ShortletsPage() {
             </div>
           </div>
         </div>
+      </section> */}
+
+      {/* <section className='py-16 bg-white'>
+        <div className='container mx-auto px-4'>
+          <div className='max-w-5xl mx-auto text-center'>
+            <p className='text-xl md:text-4xl text-gray-700 leading-relaxed text-pretty'>
+              Discover carefully selected stays that combine comfort,
+              convenience, and class. Whether it's an elegant hotel or a modern
+              shortlet, we handpick spaces that fit every mood and travel style.
+            </p>
+          </div>
+        </div>
+      </section> */}
+
+      {/* Trust Signals Section */}
+      <section className='py-16  bg-white border-b'>
+        <div className='container mx-auto px-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto'>
+            <div className='flex flex-col items-center text-center'>
+              <div className='bg-purple-100 rounded-full p-3 mb-3'>
+                <CheckCircle className='h-6 w-6 text-purple-600' />
+              </div>
+              <p className='text-base font-medium text-gray-800'>
+                Verified shortlets and service apartments
+              </p>
+            </div>
+            <div className='flex flex-col items-center text-center'>
+              <div className='bg-purple-100 rounded-full p-3 mb-3'>
+                <Users className='h-6 w-6 text-purple-600' />
+              </div>
+              <p className='text-base font-medium text-gray-800'>
+                Curated 4 & 5 star hotels across top destinations
+              </p>
+            </div>
+            <div className='flex flex-col items-center text-center'>
+              <div className='bg-purple-100 rounded-full p-3 mb-3'>
+                <Zap className='h-6 w-6 text-purple-600' />
+              </div>
+              <p className='text-base font-medium text-gray-800'>
+                Instant confirmation
+              </p>
+            </div>
+            <div className='flex flex-col items-center text-center'>
+              <div className='bg-purple-100 rounded-full p-3 mb-3'>
+                <Lock className='h-6 w-6 text-purple-600' />
+              </div>
+              <p className='text-base font-medium text-gray-800'>
+                No booking fees
+              </p>
+            </div>
+            <div className='flex flex-col items-center text-center'>
+              <div className='bg-purple-100 rounded-full p-3 mb-3'>
+                <PhoneCall className='h-6 w-6 text-purple-600' />
+              </div>
+              <p className='text-base font-medium text-gray-800'>
+                Flexible cancellation options
+              </p>
+            </div>
+          </div>
+          <div className='text-center mt-14'>
+            <p className='text-2xl font-semibold text-purple-600'>
+              Best rate guaranteed
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className='py-20 -mt-1 bg-white'>
+        <div className='container mx-auto px-4'>
+          <h2 className='text-4xl md:text-5xl font-bold text-center mb-4 text-balance'>
+            Shortlet Apartment Amenities
+          </h2>
+          <p className='text-center text-gray-600 mb-16 max-w-2xl mx-auto'>
+            Our premium shortlet apartments feature the finest conveniences for
+            your comfort
+          </p>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto'>
+            <div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+              <div className='flex items-center gap-3 mb-3'>
+                <Clock className='h-6 w-6 text-purple-600' />
+                <h3 className='font-bold text-gray-900'>24/7 Concierge</h3>
+              </div>
+              <p className='text-gray-600 text-sm'>
+                Round-the-clock support for all your needs and queries
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+              <div className='flex items-center gap-3 mb-3'>
+                <Wifi className='h-6 w-6 text-purple-600' />
+                <h3 className='font-bold text-gray-900'>High-Speed WiFi</h3>
+              </div>
+              <p className='text-gray-600 text-sm'>
+                Reliable, fast internet connectivity throughout the property
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+              <div className='flex items-center gap-3 mb-3'>
+                <UtensilsCrossed className='h-6 w-6 text-purple-600' />
+                <h3 className='font-bold text-gray-900'>Infinity Pool</h3>
+              </div>
+              <p className='text-gray-600 text-sm'>
+                Stunning rooftop pool with panoramic city views
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+              <div className='flex items-center gap-3 mb-3'>
+                <Lock className='h-6 w-6 text-purple-600' />
+                <h3 className='font-bold text-gray-900'>Secure Parking</h3>
+              </div>
+              <p className='text-gray-600 text-sm'>
+                Safe, covered parking with 24/7 surveillance
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+              <div className='flex items-center gap-3 mb-3'>
+                <Zap className='h-6 w-6 text-purple-600' />
+                <h3 className='font-bold text-gray-900'>Smart Entertainment</h3>
+              </div>
+              <p className='text-gray-600 text-sm'>
+                Premium entertainment systems in every room
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+              <div className='flex items-center gap-3 mb-3'>
+                <Users className='h-6 w-6 text-purple-600' />
+                <h3 className='font-bold text-gray-900'>Fitness Center</h3>
+              </div>
+              <p className='text-gray-600 text-sm'>
+                Fully equipped gym with professional training options
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+              <div className='flex items-center gap-3 mb-3'>
+                <Home className='h-6 w-6 text-purple-600' />
+                <h3 className='font-bold text-gray-900'>
+                  Fully Equipped Kitchen
+                </h3>
+              </div>
+              <p className='text-gray-600 text-sm'>
+                Modern kitchens with premium appliances for self-catering
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-6 shadow-sm border border-gray-200'>
+              <div className='flex items-center gap-3 mb-3'>
+                <Clock className='h-6 w-6 text-purple-600' />
+                <h3 className='font-bold text-gray-900'>
+                  Housekeeping Service
+                </h3>
+              </div>
+              <p className='text-gray-600 text-sm'>
+                Regular cleaning and maintenance services available
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className='py-20 bg-white'>
+        <div className='container mx-auto px-4'>
+          <h2 className='text-4xl md:text-5xl font-bold text-center mb-4 text-balance'>
+            Explore Our Accommodations
+          </h2>
+          <p className='text-center text-gray-600 mb-16 max-w-2xl mx-auto'>
+            Browse our curated selection of luxury hotels and premium shortlet
+            apartments across Lagos's finest destinations
+          </p>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto'>
+            {accommodations.map((accommodation) => (
+              <div
+                key={accommodation.id}
+                className='rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow'
+              >
+                <div
+                  className='h-48 bg-cover bg-center'
+                  style={{
+                    backgroundImage: `url(${accommodation.images[0]})`,
+                  }}
+                />
+                <div className='p-6'>
+                  <h3 className='text-xl font-bold mb-2'>
+                    {accommodation.title}
+                  </h3>
+                  <p className='text-gray-600 text-sm mb-4'>
+                    {accommodation.location}
+                  </p>
+                  <div className='flex gap-2 mb-4'>
+                    {accommodation.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className='bg-purple-100 text-purple-700 text-xs font-semibold px-3 py-1 rounded-full'
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <Button
+                    onClick={() => setSelectedAccommodation(accommodation)}
+                    className='w-full bg-purple-600 hover:bg-purple-700'
+                  >
+                    View Details
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Section */}
+      <section className='py-20 bg-gray-50'>
+        <div className='container mx-auto px-4'>
+          <h2 className='text-4xl md:text-5xl font-bold text-center mb-16 text-balance'>
+            Why Choose Liberty Hospitality?
+          </h2>
+
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto'>
+            <div className='bg-white rounded-lg p-8 shadow-sm border border-gray-200 text-center'>
+              <div className='flex justify-center mb-6'>
+                <div className='bg-purple-100 rounded-full p-4'>
+                  <Home className='h-12 w-12 text-purple-600' />
+                </div>
+              </div>
+              <h3 className='text-2xl font-bold mb-4'>Premium Locations</h3>
+              <p className='text-gray-600 leading-relaxed'>
+                All our properties are strategically located in prime areas of
+                Lagos with easy access to business districts, entertainment, and
+                major transportation hubs.
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-8 shadow-sm border border-gray-200 text-center'>
+              <div className='flex justify-center mb-6'>
+                <div className='bg-purple-100 rounded-full p-4'>
+                  <Clock className='h-12 w-12 text-purple-600' />
+                </div>
+              </div>
+              <h3 className='text-2xl font-bold mb-4'>24/7 Support</h3>
+              <p className='text-gray-600 leading-relaxed'>
+                Our dedicated support team is available around the clock to
+                ensure your stay is comfortable, convenient, and absolutely
+                hassle-free.
+              </p>
+            </div>
+
+            <div className='bg-white rounded-lg p-8 shadow-sm border border-gray-200 text-center'>
+              <div className='flex justify-center mb-6'>
+                <div className='bg-purple-100 rounded-full p-4'>
+                  <PhoneCall className='h-12 w-12 text-purple-600' />
+                </div>
+              </div>
+              <h3 className='text-2xl font-bold mb-4'>Easy Booking</h3>
+              <p className='text-gray-600 leading-relaxed'>
+                Simple and secure booking with flexible payment options, instant
+                confirmation, and competitive rates guaranteed.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className='py-20'>
@@ -628,6 +912,16 @@ export default function ShortletsPage() {
       </section>
 
       <Footer />
+
+      {selectedAccommodation && (
+        <ImageCarouselModal
+          accommodation={selectedAccommodation}
+          isOpen={!!selectedAccommodation}
+          onClose={() => setSelectedAccommodation(null)}
+          isFormOpen={isFormOpen}
+          setIsFormOpen={setIsFormOpen}
+        />
+      )}
     </div>
   );
 }

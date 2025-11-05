@@ -216,6 +216,81 @@ export interface BlogPost {
   }[];
 }
 
+export const accommodations = [
+  {
+    id: 1,
+    title: 'Luxury Beachfront Hotel',
+    location: 'Victoria Island, Lagos',
+    tags: ['5-Star', 'Ocean View'],
+    images: [
+      '/luxury-5-star-hotel-bedroom-lagos-victoria-island.jpg',
+      '/luxury-hotel-swimming-pool-lagos.jpg',
+      '/luxury-hotel-restaurant-lagos.jpg',
+      '/luxury-hotel-lobby-lagos.jpg',
+    ],
+  },
+  {
+    id: 2,
+    title: 'Modern Penthouse Shortlet',
+    location: 'Lekki, Lagos',
+    tags: ['3-Bedroom', 'Pool Access'],
+    images: [
+      '/modern-luxury-shortlet-apartment-living-room-lekki.jpg',
+      '/modern-shortlet-bedroom-lekki-lagos.jpg',
+      '/modern-shortlet-kitchen-lekki-lagos.jpg',
+      '/modern-shortlet-balcony-lekki-lagos.jpg',
+    ],
+  },
+  {
+    id: 3,
+    title: 'Boutique Hotel Suite',
+    location: 'Ikoyi, Lagos',
+    tags: ['4-Star', 'City Center'],
+    images: [
+      '/upscale-boutique-hotel-suite-ikoyi-lagos.jpg',
+      '/boutique-hotel-bathroom-ikoyi-lagos.jpg',
+      '/boutique-hotel-lounge-ikoyi-lagos.jpg',
+      '/boutique-hotel-terrace-ikoyi-lagos.jpg',
+    ],
+  },
+  {
+    id: 4,
+    title: 'Elegant Furnished Apartment',
+    location: 'Ikoyi, Lagos',
+    tags: ['2-Bedroom', 'Serviced'],
+    images: [
+      '/elegant-furnished-apartment-kitchen-ikoyi-lagos.jpg',
+      '/elegant-apartment-living-area-ikoyi-lagos.jpg',
+      '/elegant-apartment-bedroom-ikoyi-lagos.jpg',
+      '/placeholder.svg?height=400&width=600',
+    ],
+  },
+  {
+    id: 5,
+    title: 'Business Executive Hotel',
+    location: 'Ikeja, Lagos',
+    tags: ['4-Star', 'Business Hub'],
+    images: [
+      '/placeholder.svg?height=400&width=600',
+      '/placeholder.svg?height=400&width=600',
+      '/placeholder.svg?height=400&width=600',
+      '/placeholder.svg?height=400&width=600',
+    ],
+  },
+  {
+    id: 6,
+    title: 'Family Shortlet Residence',
+    location: 'VI, Lagos',
+    tags: ['4-Bedroom', 'Spacious'],
+    images: [
+      '/placeholder.svg?height=400&width=600',
+      '/placeholder.svg?height=400&width=600',
+      '/placeholder.svg?height=400&width=600',
+      '/placeholder.svg?height=400&width=600',
+    ],
+  },
+];
+
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
