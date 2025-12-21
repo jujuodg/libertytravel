@@ -2,8 +2,10 @@ import type React from 'react';
 import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
+import Script from 'next/script';
 import Head from 'next/head';
 import './globals.css';
+import { ReactNode } from 'react';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://libertytravelsng.com'),
@@ -53,11 +55,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   const business = {
     name: 'Liberty Hospitality Limited',
     url: 'https://libertytravelsng.com',
@@ -113,17 +111,8 @@ export default function RootLayout({
 
   return (
     <html lang='en'>
-      <Head>
-        <script
-          id='mcjs'
-          dangerouslySetInnerHTML={{
-            __html: `
-          !function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/0feedd981fc6ffd5a9323341d/1bc5a23e0bea192240e7e8ac8.js");
-        `,
-          }}
-        />
-      </Head>
       <head>
+        {/* Fonts */}
         <style>{`
           html {
             font-family: ${GeistSans.style.fontFamily};
@@ -139,22 +128,45 @@ export default function RootLayout({
             __html: JSON.stringify(travelAgencyJsonLd),
           }}
         />
-
         <script
           type='application/ld+json'
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
-        />
-
-        <script
-          id='mcjs'
           dangerouslySetInnerHTML={{
-            __html: `
-          !function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/0feedd981fc6ffd5a9323341d/1bc5a23e0bea192240e7e8ac8.js");
-        `,
+            __html: JSON.stringify(webSiteJsonLd),
           }}
         />
       </head>
-      <body>{children}</body>
+
+      <body>
+        {children}
+
+        {/* ================= ZOHO CAMPAIGNS POPUP ================= */}
+
+        {/* Load Zoho script */}
+        <Script
+          id='zoho-optin'
+          src='https://campaigns.zoho.com/js/optin.min.js'
+          strategy='afterInteractive'
+        />
+
+        {/* Initialize popup safely */}
+        <Script
+          id='zoho-popup-init'
+          strategy='afterInteractive'
+          dangerouslySetInnerHTML={{
+            __html: `
+              document.addEventListener("DOMContentLoaded", function () {
+                if (typeof loadZCPopup === "function") {
+                  loadZCPopup(
+                    "3z12f8ef8189dbda523d3d9b4d755b56e5ecb4031efddb17b5e453b32ff397e804",
+                    "ZCFORMVIEW",
+                    "3z82c17cbc9b9d8341d451280ecdbf8d9c"
+                  );
+                }
+              });
+            `,
+          }}
+        />
+      </body>
     </html>
   );
 }
